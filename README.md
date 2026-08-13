@@ -11,7 +11,6 @@ Apni GitHub profile ko awesome trophies se decorate karein!
 
 - 🦕 **Deno Runtime** - Modern, secure JavaScript/TypeScript runtime
 - ⚡ **GraphQL API** - Single request for all data (faster!)
-- 🔴 **Redis Cache** - Lightning-fast response with smart caching
 - 🏆 **Real GitHub Stats** - Accurate data from GitHub GraphQL API
 - 🎯 **Dynamic Ranking System** - SSS to D ranks with progress tracking
 - 🎨 **Custom Trophy SVGs** - Beautiful rank-based trophy designs
@@ -35,41 +34,7 @@ run.
 deno task cache
 ```
 
-### Redis (Optional but Recommended):
-
-For caching support, install Redis:
-
-**Windows:**
-
-```powershell
-# Using Chocolatey
-choco install redis-64
-
-# Using WSL
-wsl -d Ubuntu -- sudo apt install redis-server
-```
-
-**macOS:**
-
-```bash
-brew install redis
-brew services start redis
-```
-
-**Linux:**
-
-```bash
-sudo apt install redis-server
-sudo systemctl start redis
-```
-
-**Docker:**
-
-```bash
-docker run -d -p 6379:6379 redis:7-alpine
-```
-
-### Optional: GitHub Token (Recommended)
+### GitHub Token (Recommended)
 
 For higher rate limits, create a GitHub Personal Access Token:
 
@@ -80,19 +45,12 @@ For higher rate limits, create a GitHub Personal Access Token:
 5. Add your token to `.env`:
    ```
    GITHUB_TOKEN=your_github_token_here
-   CACHE_ENABLED=true
-   REDIS_URL=redis://localhost:6379
    ```
 
 **Rate Limits:**
 
 - Without token: 60 requests/hour
 - With token: 5000 requests/hour
-
-**Cache Performance:**
-
-- Without cache: ~500-800ms per request
-- With Redis cache: ~10-50ms per request (cached)
 
 ## Usage
 
@@ -384,7 +342,7 @@ github-trophy/
 │   ├── svgGenerator.ts     # SVG trophy generator
 │   └── trophy.ts           # Trophy logic & ranking
 ├── utils/              # Utility functions
-│   ├── cache.ts            # Redis caching (disabled by default)
+│   ├── cache.ts            # Caching utilities (currently disabled)
 │   ├── errorHandler.ts     # Error handling
 │   └── helpers.ts          # Helper functions
 ├── config/             # Configuration

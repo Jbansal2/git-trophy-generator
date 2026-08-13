@@ -5,3 +5,15 @@ node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# Deno (old)
+.deno/
+deno.lock
+
+# VS Code
+.vscode/
+
+# Build / coverage
+coverage/
+dist/
+build/

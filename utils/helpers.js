@@ -1,8 +1,8 @@
 /**
  * Validate GitHub username
  */
-export function isValidUsername(username: string): boolean {
-  if (!username || typeof username !== "string") {
+export function isValidUsername(username) {
+  if (!username || typeof username !== 'string') {
     return false;
   }
 
@@ -14,10 +14,10 @@ export function isValidUsername(username: string): boolean {
 /**
  * Sanitize query parameters
  */
-export function sanitizeParams(params: Record<string, any>) {
+export function sanitizeParams(params) {
   const {
     username,
-    theme = "flat",
+    theme = 'flat',
     column = 6,
     margin_w = 15,
     margin_h = 15,
@@ -30,16 +30,16 @@ export function sanitizeParams(params: Record<string, any>) {
   return {
     username: username?.trim(),
     theme:
-      ["flat", "dark", "radical", "gruvbox", "onedark", "dracula"].includes(
+      ['flat', 'dark', 'radical', 'gruvbox', 'onedark', 'dracula'].includes(
           theme,
         )
         ? theme
-        : "flat",
+        : 'flat',
     column: Math.min(Math.max(parseInt(column) || 6, 1), 10),
     margin_w: Math.max(parseInt(margin_w) || 15, 0),
     margin_h: Math.max(parseInt(margin_h) || 15, 0),
-    no_bg: no_bg === "true" || no_bg === true,
-    no_frame: no_frame === "true" || no_frame === true,
+    no_bg: no_bg === 'true' || no_bg === true,
+    no_frame: no_frame === 'true' || no_frame === true,
     rank: rank?.trim(),
     title: title?.trim(),
   };
@@ -48,24 +48,24 @@ export function sanitizeParams(params: Record<string, any>) {
 /**
  * Format error message for client
  */
-export function formatErrorMessage(error: Error): string {
-  const errorMessages: Record<string, string> = {
-    "User not found": "GitHub user not found. Please check the username.",
-    "Rate limit exceeded":
-      "GitHub API rate limit exceeded. Please try again later.",
-    "Network error":
-      "Unable to connect to GitHub API. Please check your connection.",
-    "Invalid response": "Received invalid response from GitHub API.",
+export function formatErrorMessage(error) {
+  const errorMessages = {
+    'User not found': 'GitHub user not found. Please check the username.',
+    'Rate limit exceeded':
+      'GitHub API rate limit exceeded. Please try again later.',
+    'Network error':
+      'Unable to connect to GitHub API. Please check your connection.',
+    'Invalid response': 'Received invalid response from GitHub API.',
   };
 
   return errorMessages[error.message] ||
-    "An unexpected error occurred. Please try again.";
+    'An unexpected error occurred. Please try again.';
 }
 
 /**
  * Calculate percentage for progress bar
  */
-export function calculatePercentage(current: number, max: number): number {
+export function calculatePercentage(current, max) {
   if (!max || max <= 0) return 0;
   return Math.min(Math.round((current / max) * 100), 100);
 }
@@ -73,19 +73,16 @@ export function calculatePercentage(current: number, max: number): number {
 /**
  * Generate cache key
  */
-export function generateCacheKey(
-  username: string,
-  params: Record<string, any>,
-): string {
+export function generateCacheKey(username, params) {
   const { theme, column, no_bg, no_frame, rank, title } = params;
   return `trophy_${username}_${theme}_${column}_${no_bg}_${no_frame}_${
-    rank || "all"
-  }_${title || "all"}`;
+    rank || 'all'
+  }_${title || 'all'}`;
 }
 
 /**
  * Clamp value between min and max
  */
-export function clamp(value: number, min: number, max: number): number {
+export function clamp(value, min, max) {
   return Math.min(Math.max(value, min), max);
 }

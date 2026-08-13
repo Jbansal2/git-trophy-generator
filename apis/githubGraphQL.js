@@ -1,76 +1,73 @@
-import { GitHubAPIError } from "../utils/errorHandler.ts";
-import { getGitHubToken, hasGitHubToken } from "../config/config.ts";
-
-interface GraphQLResponse {
-  data?: any;
-  errors?: Array<{ message: string }>;
-}
+import { GitHubAPIError } from '../utils/errorHandler.js';
+import { getGitHubToken, hasGitHubToken } from '../config/config.js';
 
 /**
  * Make GraphQL request to GitHub API
  */
-async function makeGraphQLRequest(
-  query: string,
-  variables: Record<string, any> = {},
-): Promise<any> {
+async function makeGraphQLRequest(query, variables = {}) {
   const token = getGitHubToken();
 
-  const headers: HeadersInit = {
-    "Content-Type": "application/json",
-    "User-Agent": "GitHub-Trophy-Generator",
-    "Accept": "application/vnd.github.v4+json",
+  const headers = {
+    'Content-Type': 'application/json',
+    'User-Agent': 'GitHub-Trophy-Generator',
+    'Accept': 'application/vnd.github.v4+json',
   };
 
   // Add authorization header if token is available
   if (token) {
-    headers["Authorization"] = `bearer ${token}`;
+    headers['Authorization'] = `bearer ${token}`;
   }
 
   try {
-    const response = await fetch("https://api.github.com/graphql", {
-      method: "POST",
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+
+    const response = await fetch('https://api.github.com/graphql', {
+      method: 'POST',
       headers,
       body: JSON.stringify({ query, variables }),
-      signal: AbortSignal.timeout(10000), // 10 second timeout
+      signal: controller.signal,
     });
 
+    clearTimeout(timeout);
+
     // Log rate limit info
-    const remaining = response.headers.get("x-ratelimit-remaining");
-    const limit = response.headers.get("x-ratelimit-limit");
+    const remaining = response.headers.get('x-ratelimit-remaining');
+    const limit = response.headers.get('x-ratelimit-limit');
     if (remaining && limit) {
       console.log(`GitHub API Rate Limit: ${remaining}/${limit} remaining`);
 
       if (parseInt(remaining) < 10) {
-        console.warn("⚠️  Warning: GitHub API rate limit running low!");
+        console.warn('⚠️  Warning: GitHub API rate limit running low!');
       }
     }
 
-    const data: GraphQLResponse = await response.json();
+    const data = await response.json();
 
     if (response.status === 200) {
       if (data.errors) {
         const errorMsg = data.errors[0].message;
-        console.error("GraphQL Error:", errorMsg);
+        console.error('GraphQL Error:', errorMsg);
         throw new GitHubAPIError(`GraphQL Error: ${errorMsg}`, 400);
       }
       return data.data;
     } else if (response.status === 401) {
-      console.error("Invalid or expired GitHub token");
+      console.error('Invalid or expired GitHub token');
       throw new GitHubAPIError(
-        "Invalid or expired GitHub token. Please check your GITHUB_TOKEN.",
+        'Invalid or expired GitHub token. Please check your GITHUB_TOKEN.',
         401,
       );
     } else if (response.status === 403) {
-      const resetTime = response.headers.get("x-ratelimit-reset");
+      const resetTime = response.headers.get('x-ratelimit-reset');
       const resetDate = resetTime
         ? new Date(parseInt(resetTime) * 1000).toLocaleString()
-        : "unknown";
+        : 'unknown';
       console.error(`Rate limit exceeded. Resets at: ${resetDate}`);
       throw new GitHubAPIError(
         `Rate limit exceeded. ${
           hasGitHubToken()
-            ? "Try using a different token or wait."
-            : "Add a GitHub token to increase rate limit."
+            ? 'Try using a different token or wait.'
+            : 'Add a GitHub token to increase rate limit.'
         }`,
         429,
       );
@@ -85,7 +82,7 @@ async function makeGraphQLRequest(
       throw error;
     }
     const errorMessage = error instanceof Error ? error.message : String(error);
-    console.error("Network error:", errorMessage);
+    console.error('Network error:', errorMessage);
     throw new GitHubAPIError(`Network error: ${errorMessage}`, 503);
   }
 }
@@ -93,7 +90,7 @@ async function makeGraphQLRequest(
 /**
  * Fetch all GitHub stats using GraphQL
  */
-export async function fetchAllGitHubStats(username: string) {
+export async function fetchAllGitHubStats(username) {
   const query = `
     query($username: String!) {
       user(login: $username) {
@@ -143,7 +140,7 @@ export async function fetchAllGitHubStats(username: string) {
     const data = await makeGraphQLRequest(query, { username });
 
     if (!data.user) {
-      throw new GitHubAPIError("User not found", 404);
+      throw new GitHubAPIError('User not found', 404);
     }
 
     const user = data.user;
@@ -151,13 +148,13 @@ export async function fetchAllGitHubStats(username: string) {
 
     // Calculate total stars
     const totalStars = repos.reduce(
-      (sum: number, repo: any) => sum + (repo.stargazerCount || 0),
+      (sum, repo) => sum + (repo.stargazerCount || 0),
       0,
     );
 
     // Calculate total forks
     const totalForks = repos.reduce(
-      (sum: number, repo: any) => sum + (repo.forkCount || 0),
+      (sum, repo) => sum + (repo.forkCount || 0),
       0,
     );
 
@@ -187,11 +184,7 @@ export async function fetchAllGitHubStats(username: string) {
 /**
  * Fetch user's contribution stats by year
  */
-export async function fetchContributionStats(
-  username: string,
-  from: string,
-  to: string,
-) {
+export async function fetchContributionStats(username, from, to) {
   const query = `
     query($username: String!, $from: DateTime!, $to: DateTime!) {
       user(login: $username) {
@@ -218,7 +211,7 @@ export async function fetchContributionStats(
     const data = await makeGraphQLRequest(query, { username, from, to });
 
     if (!data.user) {
-      throw new GitHubAPIError("User not found", 404);
+      throw new GitHubAPIError('User not found', 404);
     }
 
     return data.user.contributionsCollection;
@@ -235,7 +228,7 @@ export async function fetchContributionStats(
 /**
  * Fetch repository languages
  */
-export async function fetchLanguages(username: string) {
+export async function fetchLanguages(username) {
   const query = `
     query($username: String!) {
       user(login: $username) {
@@ -263,10 +256,10 @@ export async function fetchLanguages(username: string) {
       return {};
     }
 
-    const languageStats: Record<string, any> = {};
+    const languageStats = {};
 
-    data.user.repositories.nodes.forEach((repo: any) => {
-      repo.languages.edges.forEach(({ node, size }: any) => {
+    data.user.repositories.nodes.forEach((repo) => {
+      repo.languages.edges.forEach(({ node, size }) => {
         if (languageStats[node.name]) {
           languageStats[node.name].size += size;
         } else {

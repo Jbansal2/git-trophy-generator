@@ -1,0 +1,28 @@
+{
+  "name": "git-trophy-generator",
+  "version": "1.0.0",
+  "description": "Generate beautiful trophy badges for your GitHub profile",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "test": "node --test tests/*.test.js"
+  },
+  "keywords": [
+    "github",
+    "trophy",
+    "badge",
+    "profile",
+    "svg"
+  ],
+  "author": "Jitendra Bansal",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

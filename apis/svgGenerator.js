@@ -1,29 +1,26 @@
-interface Trophy {
-  name: string;
-  rank: string;
-  title: string;
-  value: number | string;
-  progress: number;
-  next: number | null;
-  color: string;
-  icon: string;
-}
+import { readFile } from 'fs/promises';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 // Rank to SVG file mapping
-const rankToSvgFile: Record<string, string> = {
-  "SSS": "sss.svg", // SSS special trophy
-  "SS": "ss.svg", // SS special trophy
-  "S": "1.svg", // Gold
-  "A": "3.svg", // A rank
-  "B": "2.svg", // B rank
-  "C": "4.svg", // C rank
-  "D": "5.svg", // D rank
+const rankToSvgFile = {
+  'SSS': 'sss.svg', // SSS special trophy
+  'SS': 'ss.svg', // SS special trophy
+  'S': '1.svg', // Gold
+  'A': '3.svg', // A rank
+  'B': '2.svg', // B rank
+  'C': '4.svg', // C rank
+  'D': '5.svg', // D rank
 };
 
-async function loadRankSvg(rank: string): Promise<string> {
-  const fileName = rankToSvgFile[rank] || "5.svg"; // Default to D rank
+async function loadRankSvg(rank) {
+  const fileName = rankToSvgFile[rank] || '5.svg'; // Default to D rank
   try {
-    const svgContent = await Deno.readTextFile(`./ass/${fileName}`);
+    const filePath = join(__dirname, '..', 'ass', fileName);
+    const svgContent = await readFile(filePath, 'utf-8');
     return svgContent;
   } catch (error) {
     console.error(`Failed to load SVG for rank ${rank}:`, error);
@@ -31,12 +28,9 @@ async function loadRankSvg(rank: string): Promise<string> {
   }
 }
 
-export async function generateTrophySVG(
-  trophies: Trophy[],
-  options: Record<string, any>,
-): Promise<string> {
+export async function generateTrophySVG(trophies, options) {
   const {
-    theme = "flat",
+    theme = 'flat',
     column = 6,
     margin_w = 5,
     margin_h = 5,
@@ -48,11 +42,11 @@ export async function generateTrophySVG(
 
   let filteredTrophies = [...trophies];
   if (rank) {
-    const ranks = rank.split(",").map((r: string) => r.trim());
-    const excludeRanks = ranks.filter((r: string) => r.startsWith("-")).map((
-      r: string,
-    ) => r.substring(1));
-    const includeRanks = ranks.filter((r: string) => !r.startsWith("-"));
+    const ranks = rank.split(',').map((r) => r.trim());
+    const excludeRanks = ranks.filter((r) => r.startsWith('-')).map((r) =>
+      r.substring(1)
+    );
+    const includeRanks = ranks.filter((r) => !r.startsWith('-'));
 
     if (excludeRanks.length > 0) {
       filteredTrophies = filteredTrophies.filter((t) =>
@@ -66,11 +60,11 @@ export async function generateTrophySVG(
   }
 
   if (title) {
-    const titles = title.split(",").map((t: string) => t.trim());
-    const excludeTitles = titles.filter((t: string) => t.startsWith("-")).map((
-      t: string,
-    ) => t.substring(1));
-    const includeTitles = titles.filter((t: string) => !t.startsWith("-"));
+    const titles = title.split(',').map((t) => t.trim());
+    const excludeTitles = titles.filter((t) => t.startsWith('-')).map((t) =>
+      t.substring(1)
+    );
+    const includeTitles = titles.filter((t) => !t.startsWith('-'));
 
     if (excludeTitles.length > 0) {
       filteredTrophies = filteredTrophies.filter((t) =>
@@ -87,8 +81,6 @@ export async function generateTrophySVG(
   const marginW = parseInt(margin_w) || 5;
   const marginH = parseInt(margin_h) || 5;
 
-  // Card layout ab fixed rhythm follow karta hai (jaise preview mein approve hua tha):
-  // title bar -> gap 10 -> icon -> gap 14 -> name -> gap 10 -> progress bar -> gap 15 -> points
   const trophyWidth = 152;
   const trophyHeight = 162;
   const titleBarHeight = 20;
@@ -103,65 +95,65 @@ export async function generateTrophySVG(
     (trophyWidth + marginW) * Math.min(cols, filteredTrophies.length) - marginW;
   const totalHeight = (trophyHeight + marginH) * rows - marginH;
 
-  const themeStyles: Record<string, any> = {
+  const themeStyles = {
     flat: {
-      shadow: "",
-      border: "#e1e4e8",
-      text: "#24292e",
-      bg: "#ffffff",
-      titleBg: "#f6f8fa",
-      progressBg: "#e1e4e8",
+      shadow: '',
+      border: '#e1e4e8',
+      text: '#24292e',
+      bg: '#ffffff',
+      titleBg: '#f6f8fa',
+      progressBg: '#e1e4e8',
     },
     dark: {
-      shadow: "",
-      border: "#30363d",
-      text: "#c9d1d9",
-      bg: "#0d1117",
-      titleBg: "#161b22",
-      progressBg: "#21262d",
+      shadow: '',
+      border: '#30363d',
+      text: '#c9d1d9',
+      bg: '#0d1117',
+      titleBg: '#161b22',
+      progressBg: '#21262d',
     },
     radical: {
-      shadow: "drop-shadow(0 0 10px rgba(255,0,255,0.3))",
-      border: "#ff006e",
-      text: "#fe428e",
-      bg: "#141321",
-      titleBg: "#1f1d2e",
-      progressBg: "#2d2b3e",
+      shadow: 'drop-shadow(0 0 10px rgba(255,0,255,0.3))',
+      border: '#ff006e',
+      text: '#fe428e',
+      bg: '#141321',
+      titleBg: '#1f1d2e',
+      progressBg: '#2d2b3e',
     },
     gruvbox: {
-      shadow: "",
-      border: "#d65d0e",
-      text: "#ebdbb2",
-      bg: "#282828",
-      titleBg: "#3c3836",
-      progressBg: "#504945",
+      shadow: '',
+      border: '#d65d0e',
+      text: '#ebdbb2',
+      bg: '#282828',
+      titleBg: '#3c3836',
+      progressBg: '#504945',
     },
     onedark: {
-      shadow: "",
-      border: "#4c566a",
-      text: "#abb2bf",
-      bg: "#282c34",
-      titleBg: "#21252b",
-      progressBg: "#3e4451",
+      shadow: '',
+      border: '#4c566a',
+      text: '#abb2bf',
+      bg: '#282c34',
+      titleBg: '#21252b',
+      progressBg: '#3e4451',
     },
     dracula: {
-      shadow: "",
-      border: "#6272a4",
-      text: "#f8f8f2",
-      bg: "#282a36",
-      titleBg: "#44475a",
-      progressBg: "#6272a4",
+      shadow: '',
+      border: '#6272a4',
+      text: '#f8f8f2',
+      bg: '#282a36',
+      titleBg: '#44475a',
+      progressBg: '#6272a4',
     },
   };
 
   const style = themeStyles[theme] || themeStyles.flat;
-  const actualBg = no_bg === "true" ? "transparent" : style.bg;
+  const actualBg = no_bg === 'true' ? 'transparent' : style.bg;
 
   let svgContent =
     `<svg width="${totalWidth}" height="${totalHeight}" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     ${
-      no_bg === "true"
-        ? ""
+      no_bg === 'true'
+        ? ''
         : `<rect width="${totalWidth}" height="${totalHeight}" fill="${actualBg}"/>`
     }
     <style>
@@ -171,7 +163,7 @@ export async function generateTrophySVG(
       .trophy-points { font: 9px 'Segoe UI', Arial, sans-serif; fill: ${style.text}; opacity: 0.55; }
     </style>`;
 
-  // Load all trophy SVGs first
+  // Load all trophy SVGs
   for (let i = 0; i < filteredTrophies.length; i++) {
     const trophy = filteredTrophies[i];
     const col = i % cols;
@@ -179,17 +171,17 @@ export async function generateTrophySVG(
     const x = col * (trophyWidth + marginW);
     const y = row * (trophyHeight + marginH);
 
-    const rankColors: Record<string, string> = {
-      "SSS": "#FFD700",
-      "SS": "#FFA500",
-      "S": "#FF6347",
-      "A": "#4169E1",
-      "B": "#32CD32",
-      "C": "#90EE90",
-      "D": "#808080",
+    const rankColors = {
+      'SSS': '#FFD700',
+      'SS': '#FFA500',
+      'S': '#FF6347',
+      'A': '#4169E1',
+      'B': '#32CD32',
+      'C': '#90EE90',
+      'D': '#808080',
     };
 
-    const rankColor = rankColors[trophy.rank] || "#808080";
+    const rankColor = rankColors[trophy.rank] || '#808080';
 
     const progressBarWidth = 115;
     const progressBarHeight = 4;
@@ -200,11 +192,10 @@ export async function generateTrophySVG(
     // Load trophy SVG from file
     const rankSvg = await loadRankSvg(trophy.rank);
 
-    // Extract SVG content and wrap it with positioning
+    // Extract SVG content
     const svgContentMatch = rankSvg.match(/<svg[^>]*>([\s\S]*)<\/svg>/i);
     const innerSvgContent = svgContentMatch ? svgContentMatch[1] : rankSvg;
 
-    // Fixed-rhythm positions, jaisa preview mein tha
     const iconX = (trophyWidth - iconSize) / 2;
     const iconY = titleBarHeight + iconGap;
     const nameY = iconY + iconSize + nameGap;
@@ -218,9 +209,8 @@ export async function generateTrophySVG(
     const trophyIcon =
       `<svg x="${iconX}" y="${iconY}" width="${iconSize}" height="${iconSize}" viewBox="${vbOffset} ${vbOffset} ${vbSize} ${vbSize}" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">${innerSvgContent}</svg>`;
 
-    // Rank text trophy ke center mein with white background circle
     const rankTextX = trophyWidth / 2;
-    const rankTextY = iconY + (iconSize / 2) + 6; // Trophy ke vertical center
+    const rankTextY = iconY + (iconSize / 2) + 6;
     const rankCircle = `<circle cx="${rankTextX}" cy="${
       rankTextY - 6
     }" r="8" fill="white" opacity="0.95" stroke="#cccccc" stroke-width="1"/>`;
@@ -230,12 +220,10 @@ export async function generateTrophySVG(
     svgContent += `
     <g class="trophy-card" transform="translate(${x}, ${y})">
       ${
-      no_frame !== "true"
+      no_frame !== 'true'
         ? `
         <rect width="${trophyWidth}" height="${trophyHeight}" fill="${actualBg}" stroke="${style.border}" stroke-width="2"/>
-        <!-- Stamp-like scalloped edges (circles on all 4 sides) -->
         <g fill="${actualBg}">
-          <!-- Top edge circles -->
           <circle cx="10" cy="0" r="4"/>
           <circle cx="30" cy="0" r="4"/>
           <circle cx="50" cy="0" r="4"/>
@@ -243,7 +231,6 @@ export async function generateTrophySVG(
           <circle cx="90" cy="0" r="4"/>
           <circle cx="110" cy="0" r="4"/>
           <circle cx="130" cy="0" r="4"/>
-          <!-- Bottom edge circles -->
           <circle cx="10" cy="${trophyHeight}" r="4"/>
           <circle cx="30" cy="${trophyHeight}" r="4"/>
           <circle cx="50" cy="${trophyHeight}" r="4"/>
@@ -251,7 +238,6 @@ export async function generateTrophySVG(
           <circle cx="90" cy="${trophyHeight}" r="4"/>
           <circle cx="110" cy="${trophyHeight}" r="4"/>
           <circle cx="130" cy="${trophyHeight}" r="4"/>
-          <!-- Left edge circles -->
           <circle cx="0" cy="20" r="4"/>
           <circle cx="0" cy="40" r="4"/>
           <circle cx="0" cy="60" r="4"/>
@@ -259,7 +245,6 @@ export async function generateTrophySVG(
           <circle cx="0" cy="100" r="4"/>
           <circle cx="0" cy="120" r="4"/>
           <circle cx="0" cy="140" r="4"/>
-          <!-- Right edge circles -->
           <circle cx="${trophyWidth}" cy="20" r="4"/>
           <circle cx="${trophyWidth}" cy="40" r="4"/>
           <circle cx="${trophyWidth}" cy="60" r="4"/>
@@ -269,7 +254,7 @@ export async function generateTrophySVG(
           <circle cx="${trophyWidth}" cy="140" r="4"/>
         </g>
       `
-        : ""
+        : ''
     }
       <rect x="0" y="0" width="${trophyWidth}" height="${titleBarHeight}" fill="${style.titleBg}"/>
       <text class="trophy-title" x="${trophyWidth / 2}" y="${
@@ -293,6 +278,6 @@ export async function generateTrophySVG(
     </g>`;
   }
 
-  svgContent += "</svg>";
+  svgContent += '</svg>';
   return svgContent;
 }

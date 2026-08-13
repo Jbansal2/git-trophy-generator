@@ -2,10 +2,10 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Deno Version](https://img.shields.io/badge/deno-v2.x-green.svg)](https://deno.land)
-[![CI](https://github.com/YOUR_USERNAME/YOUR_REPO/workflows/CI/badge.svg)](https://github.com/YOUR_USERNAME/YOUR_REPO/actions)
+[![CI](https://github.com/Jbansal2/git-trophy-generator/workflows/CI/badge.svg)](https://github.com/Jbansal2/git-trophy-generator/actions)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
-Apni GitHub profile ko awesome trophies se decorate karein!
+Decorate your GitHub profile with awesome trophies!
 
 ## Features
 
@@ -60,7 +60,7 @@ For higher rate limits, create a GitHub Personal Access Token:
 deno task start
 ```
 
-Server `http://localhost:3000` par run hoga.
+The server will run at `http://localhost:3000`.
 
 ### Development mode:
 
@@ -128,12 +128,12 @@ http://localhost:3000/trophy?username=YOUR_GITHUB_USERNAME
 ![GitHub Trophy](http://localhost:3000/trophy?username=torvalds&no_bg=true&no_frame=true)
 ```
 
-## GitHub Profile mein kaise add karein?
+## How to Add to Your GitHub Profile?
 
-1. Apni GitHub profile README.md file open karein
-2. Trophy generator se markdown code copy karein
-3. README.md mein paste karein
-4. Commit aur push karein!
+1. Open your GitHub profile README.md file
+2. Copy the markdown code from the trophy generator
+3. Paste it into your README.md
+4. Commit and push!
 
 ## Trophies
 
@@ -163,10 +163,10 @@ _Note: Thresholds vary by trophy category_
 
 ## Themes
 
-- **Flat**: Clean aur simple design
-- **Dark**: Dark mode lovers ke liye
+- **Flat**: Clean and simple design
+- **Dark**: For dark mode lovers
 - **OneDark**: Popular code editor theme
-- **Radical**: Bold aur colorful
+- **Radical**: Bold and colorful
 - **Gruvbox**: Retro developer theme
 - **Dracula**: Dark vampire theme
 
@@ -176,34 +176,11 @@ This project uses **Deno** runtime - modern, secure, and TypeScript-first!
 
 ### Why Deno?
 
-✅ Built-in TypeScript support (no compilation needed) ✅ Secure by default
-(explicit permissions) ✅ Modern ES modules ✅ Fast startup and performance ✅
-No node_modules folder
-
-## Redis Caching 🔴
-
-Redis caching dramatically improves performance:
-
-**Performance Comparison:**
-
-- First request: ~500-800ms (fetches from GitHub API)
-- Cached request: ~10-50ms (Redis cache hit)
-- Cache TTL: 1 hour (configurable)
-
-**Cache Features:**
-
-- Automatic fallback to in-memory cache if Redis unavailable
-- Smart cache key generation (username + theme + filters)
-- Cache hit/miss tracking in response headers
-- Easy cache management via `/health` endpoint
-
-**Environment Variables:**
-
-```bash
-CACHE_ENABLED=true              # Enable caching
-CACHE_TTL=3600                  # Cache duration in seconds
-REDIS_URL=redis://localhost:6379  # Redis connection URL
-```
+✅ Built-in TypeScript support (no compilation needed)  
+✅ Secure by default (explicit permissions)  
+✅ Modern ES modules  
+✅ Fast startup and performance  
+✅ No node_modules folder
 
 ## Docker Deployment 🐳
 
@@ -229,16 +206,13 @@ docker run -p 3000:3000 -e GITHUB_TOKEN=your_token_here github-trophy
 
 ### Using Docker Compose:
 
-**Start all services (app + Redis):**
+**Start services:**
 
 ```bash
 docker-compose up -d
 ```
 
-This will start:
-
-- GitHub Trophy app on port 3000
-- Redis cache on port 6379
+This will start the GitHub Trophy app on port 3000.
 
 **View logs:**
 
@@ -272,11 +246,11 @@ Or add multiple tokens (comma-separated):
 GITHUB_TOKEN=token1,token2,token3
 ```
 
-## Deploy karne ke liye:
+## Deployment Options:
 
-Aap ise deploy kar sakte hain:
+You can deploy this to:
 
-- 🐳 **Docker** (local ya VPS)
+- 🐳 **Docker** (local or VPS)
 - Vercel
 - Heroku
 - Railway
@@ -285,7 +259,7 @@ Aap ise deploy kar sakte hain:
 - Google Cloud Run
 - Azure Container Instances
 
-Deploy karne ke baad, URL ko replace kar dein apne production URL se.
+After deployment, replace the URL with your production URL.
 
 ## Testing
 

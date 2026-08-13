@@ -74,7 +74,7 @@ enhancement suggestion, include:
 4. Run the development server:
 
    ```bash
-   deno task dev
+   npm run dev
    ```
 
 5. Server runs at `http://localhost:3000`
@@ -83,13 +83,13 @@ enhancement suggestion, include:
 
 ```bash
 # Run all tests
-deno task test
+npm test
 
-# Run tests with coverage
-deno task test:coverage
+# Run tests with watch mode
+npm test -- --watch
 
 # Run specific test file
-deno test tests/trophy.test.ts
+node --test tests/trophy.test.js
 ```
 
 ## Project Structure
@@ -102,17 +102,17 @@ github-trophy/
 ├── tests/          # Test files
 ├── ass/            # Custom trophy SVG assets
 ├── public/         # Static files (HTML frontend)
-├── server.ts       # Main server file
-└── deno.json       # Deno configuration
+├── server.js       # Main server file
+└── package.json    # Node.js configuration
 ```
 
 ## Code Style Guidelines
 
-### TypeScript/Deno
+### JavaScript/Node.js
 
-- Use TypeScript for all files
-- Use explicit types where possible
-- Follow Deno style guide
+- Use ES6+ modern JavaScript syntax
+- Use explicit JSDoc types where helpful
+- Follow Node.js best practices
 - Use descriptive variable names
 - Add JSDoc comments for exported functions
 
@@ -152,15 +152,18 @@ export async function generateTrophySVG(
 
 ### Adding Tests
 
-Tests are located in `tests/` folder. Use Deno's built-in test framework:
+Tests are located in `tests/` folder. Use Node.js built-in test framework:
 
-```typescript
-import { assertEquals } from "https://deno.land/std@0.208.0/assert/mod.ts";
-import { myFunction } from "../path/to/module.ts";
+```javascript
+import { describe, it } from "node:test";
+import assert from "node:assert";
+import { myFunction } from "../path/to/module.js";
 
-Deno.test("descriptive test name", () => {
-  const result = myFunction();
-  assertEquals(result, expectedValue);
+describe("My Function", () => {
+  it("should work correctly", () => {
+    const result = myFunction();
+    assert.strictEqual(result, expectedValue);
+  });
 });
 ```
 
@@ -180,7 +183,7 @@ Follow [Conventional Commits](https://www.conventionalcommits.org/):
 - `docs: update installation instructions`
 - `test: add tests for SVG generation`
 - `refactor: simplify cache logic`
-- `style: format code with deno fmt`
+- `style: format code with npm run format`
 - `chore: update dependencies`
 
 ## Questions?

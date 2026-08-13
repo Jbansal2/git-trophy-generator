@@ -1,5 +1,5 @@
-import { GitHubAPIError } from '../utils/errorHandler.js';
-import { getGitHubToken, hasGitHubToken } from '../config/config.js';
+import { GitHubAPIError } from "../utils/errorHandler.js";
+import { getGitHubToken, hasGitHubToken } from "../config/config.js";
 
 /**
  * Make GraphQL request to GitHub API
@@ -8,22 +8,22 @@ async function makeGraphQLRequest(query, variables = {}) {
   const token = getGitHubToken();
 
   const headers = {
-    'Content-Type': 'application/json',
-    'User-Agent': 'GitHub-Trophy-Generator',
-    'Accept': 'application/vnd.github.v4+json',
+    "Content-Type": "application/json",
+    "User-Agent": "GitHub-Trophy-Generator",
+    Accept: "application/vnd.github.v4+json",
   };
 
   // Add authorization header if token is available
   if (token) {
-    headers['Authorization'] = `bearer ${token}`;
+    headers["Authorization"] = `bearer ${token}`;
   }
 
   try {
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 10000); // 10 second timeout
 
-    const response = await fetch('https://api.github.com/graphql', {
-      method: 'POST',
+    const response = await fetch("https://api.github.com/graphql", {
+      method: "POST",
       headers,
       body: JSON.stringify({ query, variables }),
       signal: controller.signal,
@@ -32,13 +32,13 @@ async function makeGraphQLRequest(query, variables = {}) {
     clearTimeout(timeout);
 
     // Log rate limit info
-    const remaining = response.headers.get('x-ratelimit-remaining');
-    const limit = response.headers.get('x-ratelimit-limit');
+    const remaining = response.headers.get("x-ratelimit-remaining");
+    const limit = response.headers.get("x-ratelimit-limit");
     if (remaining && limit) {
       console.log(`GitHub API Rate Limit: ${remaining}/${limit} remaining`);
 
       if (parseInt(remaining) < 10) {
-        console.warn('⚠️  Warning: GitHub API rate limit running low!');
+        console.warn("⚠️  Warning: GitHub API rate limit running low!");
       }
     }
 
@@ -47,34 +47,34 @@ async function makeGraphQLRequest(query, variables = {}) {
     if (response.status === 200) {
       if (data.errors) {
         const errorMsg = data.errors[0].message;
-        console.error('GraphQL Error:', errorMsg);
+        console.error("GraphQL Error:", errorMsg);
         throw new GitHubAPIError(`GraphQL Error: ${errorMsg}`, 400);
       }
       return data.data;
     } else if (response.status === 401) {
-      console.error('Invalid or expired GitHub token');
+      console.error("Invalid or expired GitHub token");
       throw new GitHubAPIError(
-        'Invalid or expired GitHub token. Please check your GITHUB_TOKEN.',
-        401,
+        "Invalid or expired GitHub token. Please check your GITHUB_TOKEN.",
+        401
       );
     } else if (response.status === 403) {
-      const resetTime = response.headers.get('x-ratelimit-reset');
+      const resetTime = response.headers.get("x-ratelimit-reset");
       const resetDate = resetTime
         ? new Date(parseInt(resetTime) * 1000).toLocaleString()
-        : 'unknown';
+        : "unknown";
       console.error(`Rate limit exceeded. Resets at: ${resetDate}`);
       throw new GitHubAPIError(
         `Rate limit exceeded. ${
           hasGitHubToken()
-            ? 'Try using a different token or wait.'
-            : 'Add a GitHub token to increase rate limit.'
+            ? "Try using a different token or wait."
+            : "Add a GitHub token to increase rate limit."
         }`,
-        429,
+        429
       );
     } else {
       throw new GitHubAPIError(
         `GitHub API error: ${response.status}`,
-        response.status,
+        response.status
       );
     }
   } catch (error) {
@@ -82,7 +82,7 @@ async function makeGraphQLRequest(query, variables = {}) {
       throw error;
     }
     const errorMessage = error instanceof Error ? error.message : String(error);
-    console.error('Network error:', errorMessage);
+    console.error("Network error:", errorMessage);
     throw new GitHubAPIError(`Network error: ${errorMessage}`, 503);
   }
 }
@@ -140,7 +140,7 @@ export async function fetchAllGitHubStats(username) {
     const data = await makeGraphQLRequest(query, { username });
 
     if (!data.user) {
-      throw new GitHubAPIError('User not found', 404);
+      throw new GitHubAPIError("User not found", 404);
     }
 
     const user = data.user;
@@ -149,13 +149,13 @@ export async function fetchAllGitHubStats(username) {
     // Calculate total stars
     const totalStars = repos.reduce(
       (sum, repo) => sum + (repo.stargazerCount || 0),
-      0,
+      0
     );
 
     // Calculate total forks
     const totalForks = repos.reduce(
       (sum, repo) => sum + (repo.forkCount || 0),
-      0,
+      0
     );
 
     return {
@@ -211,7 +211,7 @@ export async function fetchContributionStats(username, from, to) {
     const data = await makeGraphQLRequest(query, { username, from, to });
 
     if (!data.user) {
-      throw new GitHubAPIError('User not found', 404);
+      throw new GitHubAPIError("User not found", 404);
     }
 
     return data.user.contributionsCollection;
@@ -219,7 +219,7 @@ export async function fetchContributionStats(username, from, to) {
     const errorMessage = error instanceof Error ? error.message : String(error);
     console.error(
       `Error fetching contribution stats for ${username}:`,
-      errorMessage,
+      errorMessage
     );
     return null;
   }

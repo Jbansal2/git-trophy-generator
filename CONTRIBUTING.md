@@ -54,22 +54,26 @@ enhancement suggestion, include:
 ### Local Development
 
 1. Clone your fork:
+
    ```bash
    git clone https://github.com/YOUR_USERNAME/github-trophy.git
    cd github-trophy
    ```
 
 2. Copy environment variables:
+
    ```bash
    cp .env.example .env
    ```
 
 3. Add your GitHub token to `.env`:
+
    ```
    GITHUB_TOKEN=your_token_here
    ```
 
 4. Run the development server:
+
    ```bash
    deno task dev
    ```
@@ -124,7 +128,7 @@ github-trophy/
  */
 export async function generateTrophySVG(
   trophies: Trophy[],
-  options: TrophyOptions,
+  options: TrophyOptions
 ): Promise<string> {
   // Implementation
 }

@@ -4,7 +4,7 @@
 export class APIError extends Error {
   constructor(message, statusCode = 500, details = null) {
     super(message);
-    this.name = 'APIError';
+    this.name = "APIError";
     this.statusCode = statusCode;
     this.details = details;
     this.timestamp = new Date().toISOString();
@@ -17,7 +17,7 @@ export class APIError extends Error {
 export class GitHubAPIError extends APIError {
   constructor(message, statusCode = 500) {
     super(message, statusCode);
-    this.name = 'GitHubAPIError';
+    this.name = "GitHubAPIError";
   }
 }
 
@@ -27,17 +27,17 @@ export class GitHubAPIError extends APIError {
 export class ValidationError extends APIError {
   constructor(message, details = null) {
     super(message, 400, details);
-    this.name = 'ValidationError';
+    this.name = "ValidationError";
   }
 }
 
 /**
  * Error handler middleware for Express
  */
-export function errorHandler(err, req, res, next) {
+export function errorHandler(err, req, res) {
   const error = err;
 
-  console.error('Error occurred:', {
+  console.error("Error occurred:", {
     name: error.name,
     message: error.message,
     stack: error.stack,
@@ -47,7 +47,7 @@ export function errorHandler(err, req, res, next) {
 
   // Default error
   let statusCode = error.statusCode || 500;
-  let message = error.message || 'Internal Server Error';
+  const message = error.message || "Internal Server Error";
 
   // Handle specific error types
   if (error instanceof ValidationError) {

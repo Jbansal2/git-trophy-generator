@@ -7,15 +7,18 @@ const githubToken = process.env.GITHUB_TOKEN;
 const config = {
   // Server configuration
   server: {
-    port: parseInt(process.env.PORT || '3000'),
-    env: process.env.NODE_ENV || 'development',
+    port: parseInt(process.env.PORT || "3000"),
+    env: process.env.NODE_ENV || "development",
   },
 
   // GitHub API configuration
   github: {
     // Support for multiple tokens (for load balancing)
     tokens: githubToken
-      ? githubToken.split(',').map((token) => token.trim()).filter(Boolean)
+      ? githubToken
+          .split(",")
+          .map((token) => token.trim())
+          .filter(Boolean)
       : [],
 
     // Rate limits
@@ -25,20 +28,20 @@ const config = {
     },
 
     // API endpoints
-    graphqlEndpoint: 'https://api.github.com/graphql',
-    restEndpoint: 'https://api.github.com',
+    graphqlEndpoint: "https://api.github.com/graphql",
+    restEndpoint: "https://api.github.com",
   },
 
   // Cache configuration
   cache: {
-    enabled: process.env.CACHE_ENABLED === 'true',
-    ttl: parseInt(process.env.CACHE_TTL || '3600'), // 1 hour default
+    enabled: process.env.CACHE_ENABLED === "true",
+    ttl: parseInt(process.env.CACHE_TTL || "3600"), // 1 hour default
   },
 
   // Logging configuration
   logging: {
-    level: process.env.LOG_LEVEL || 'info',
-    enabled: process.env.LOGGING_ENABLED !== 'false',
+    level: process.env.LOG_LEVEL || "info",
+    enabled: process.env.LOGGING_ENABLED !== "false",
   },
 };
 
@@ -81,7 +84,7 @@ export function getRateLimitInfo() {
  * Validate GitHub token format
  */
 export function isValidTokenFormat(token) {
-  if (!token || typeof token !== 'string') {
+  if (!token || typeof token !== "string") {
     return false;
   }
 
@@ -98,12 +101,12 @@ export function isValidTokenFormat(token) {
  * Validate all configured tokens
  */
 export function validateTokens() {
-  const invalidTokens = config.github.tokens.filter((token) =>
-    !isValidTokenFormat(token)
+  const invalidTokens = config.github.tokens.filter(
+    (token) => !isValidTokenFormat(token)
   );
 
   if (invalidTokens.length > 0) {
-    console.warn('⚠️  Warning: Some GitHub tokens have invalid format');
+    console.warn("⚠️  Warning: Some GitHub tokens have invalid format");
     return false;
   }
 

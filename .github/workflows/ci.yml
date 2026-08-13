@@ -13,18 +13,22 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v7
+        uses: actions/checkout@v4
 
-      - name: Setup Deno
-        uses: denoland/setup-deno@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          deno-version: v2.x
+          node-version: "18"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
 
       - name: Check formatting
-        run: deno fmt --check
+        run: npx prettier --check .
 
       - name: Lint code
-        run: deno lint
+        run: npx eslint . --ext .js
 
   test:
     name: Run Tests
@@ -32,39 +36,21 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v7
+        uses: actions/checkout@v4
 
-      - name: Setup Deno
-        uses: denoland/setup-deno@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          deno-version: v2.x
+          node-version: "18"
+          cache: "npm"
 
-      - name: Cache dependencies
-        run: deno task cache
+      - name: Install dependencies
+        run: npm ci
 
       - name: Run tests
-        run: deno task test
+        run: npm test
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  type-check:
-    name: Type Check
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v7
-
-      - name: Setup Deno
-        uses: denoland/setup-deno@v2
-        with:
-          deno-version: v2.x
-
-      - name: Cache dependencies
-        run: deno task cache
-
-      - name: Type check
-        run: deno check server.ts
 
   docker-build:
     name: Docker Build Test
@@ -72,13 +58,13 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v7
+        uses: actions/checkout@v4
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v4
+        uses: docker/setup-buildx-action@v3
 
       - name: Build Docker image
-        uses: docker/build-push-action@v7
+        uses: docker/build-push-action@v5
         with:
           context: .
           push: false

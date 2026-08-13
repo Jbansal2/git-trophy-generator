@@ -13,7 +13,7 @@ report, include:
 - Steps to reproduce
 - Expected vs actual behavior
 - Screenshots if applicable
-- Environment details (OS, Deno version)
+- Environment details (OS, Node.js version)
 
 ### Suggesting Enhancements
 
@@ -28,15 +28,14 @@ enhancement suggestion, include:
 ### Pull Requests
 
 1. **Fork the repository** and create your branch from `main`
-2. **Install dependencies**: The project uses Deno, no package installation
-   needed
+2. **Install dependencies**: `npm install`
 3. **Make your changes**:
    - Follow the existing code style
    - Add tests for new features
    - Update documentation as needed
 4. **Test your changes**:
    ```bash
-   deno task test
+   npm test
    ```
 5. **Commit your changes**:
    - Use clear, descriptive commit messages
@@ -47,7 +46,7 @@ enhancement suggestion, include:
 
 ### Prerequisites
 
-- [Deno](https://deno.land/) v1.40 or higher
+- [Node.js](https://nodejs.org/) v18 or higher
 - Git
 - (Optional) Redis for caching
 

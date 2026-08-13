@@ -1,7 +1,7 @@
 # 🏆 GitHub Trophy Generator
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Deno Version](https://img.shields.io/badge/deno-v2.x-green.svg)](https://deno.land)
+[![Node Version](https://img.shields.io/badge/node-v18%2B-green.svg)](https://nodejs.org)
 [![CI](https://github.com/Jbansal2/git-trophy-generator/workflows/CI/badge.svg)](https://github.com/Jbansal2/git-trophy-generator/actions)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
@@ -9,14 +9,15 @@ Decorate your GitHub profile with awesome trophies!
 
 ## Installation
 
-### Deno:
-
-No installation needed! Deno will automatically download dependencies on first
-run.
+### Node.js:
 
 ```bash
-# Optional: Pre-cache dependencies
-deno task cache
+# Clone the repository
+git clone https://github.com/Jbansal2/git-trophy-generator.git
+cd git-trophy-generator
+
+# Install dependencies
+npm install
 ```
 
 ### GitHub Token (Recommended)
@@ -42,7 +43,7 @@ For higher rate limits, create a GitHub Personal Access Token:
 ### Start the server:
 
 ```bash
-deno task start
+npm start
 ```
 
 The server will run at `http://localhost:3000`.
@@ -50,13 +51,13 @@ The server will run at `http://localhost:3000`.
 ### Development mode:
 
 ```bash
-deno task dev
+npm run dev
 ```
 
 ### Manual run:
 
 ```bash
-deno run --allow-net --allow-read --allow-env server.ts
+node server.js
 ```
 
 ## API Usage
@@ -141,17 +142,17 @@ _Note: Thresholds vary by trophy category_
 - **Gruvbox**: Retro developer theme
 - **Dracula**: Dark vampire theme
 
-## Deno Support 🦕
+## Node.js Support 🚀
 
-This project uses **Deno** runtime - modern, secure, and TypeScript-first!
+This project uses **Node.js** runtime with modern ES modules!
 
-### Why Deno?
+### Why Node.js?
 
-✅ Built-in TypeScript support (no compilation needed)\
-✅ Secure by default (explicit permissions)\
-✅ Modern ES modules\
-✅ Fast startup and performance\
-✅ No node_modules folder
+✅ Mature ecosystem with npm packages\
+✅ Wide community support\
+✅ Production-ready with excellent performance\
+✅ Built-in testing with node:test\
+✅ Native ES modules support
 
 ## Docker Deployment 🐳
 
@@ -237,25 +238,25 @@ After deployment, replace the URL with your production URL.
 Run all tests:
 
 ```bash
-deno task test
+npm test
 ```
 
 Run tests in watch mode:
 
 ```bash
-deno task test:watch
+npm test -- --watch
 ```
 
 Format code:
 
 ```bash
-deno task fmt
+npm run format
 ```
 
 Lint code:
 
 ```bash
-deno task lint
+npm run lint
 ```
 
 ## Contributing
@@ -271,11 +272,11 @@ Contributions are welcome! Please read our
 3. Add your GitHub token (optional but recommended)
 4. Run the development server:
    ```bash
-   deno task dev
+   npm run dev
    ```
 5. Make your changes and add tests
-6. Run tests: `deno task test`
-7. Format code: `deno task fmt`
+6. Run tests: `npm test`
+7. Format code: `npm run format`
 8. Submit a PR!
 
 ## Security
@@ -288,7 +289,7 @@ MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## Acknowledgments
 
-- Built with [Deno](https://deno.land) 🦕
+- Built with [Node.js](https://nodejs.org) 🚀
 - Powered by [GitHub GraphQL API](https://docs.github.com/en/graphql)
 - Inspired by the amazing GitHub developer community
 

@@ -75,11 +75,11 @@ body:
       render: shell
 
   - type: input
-    id: deno-version
+    id: node-version
     attributes:
-      label: Deno Version
-      description: Run `deno --version`
-      placeholder: deno 2.9.4
+      label: Node.js Version
+      description: Run `node --version`
+      placeholder: v18.17.0
 
   - type: textarea
     id: additional

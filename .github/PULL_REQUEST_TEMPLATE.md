@@ -31,11 +31,11 @@
 
 <!-- Describe the tests you ran -->
 
-- [ ] All existing tests pass (`deno task test`)
+- [ ] All existing tests pass (`npm test`)
 - [ ] New tests added for changes
 - [ ] Manual testing performed
-- [ ] Code formatted (`deno task fmt`)
-- [ ] Code linted (`deno task lint`)
+- [ ] Code formatted (`npm run format`)
+- [ ] Code linted (`npm run lint`)
 
 ## Screenshots (if applicable)
 

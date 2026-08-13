@@ -147,10 +147,10 @@ This project uses **Deno** runtime - modern, secure, and TypeScript-first!
 
 ### Why Deno?
 
-✅ Built-in TypeScript support (no compilation needed)  
-✅ Secure by default (explicit permissions)  
-✅ Modern ES modules  
-✅ Fast startup and performance  
+✅ Built-in TypeScript support (no compilation needed)\
+✅ Secure by default (explicit permissions)\
+✅ Modern ES modules\
+✅ Fast startup and performance\
 ✅ No node_modules folder
 
 ## Docker Deployment 🐳

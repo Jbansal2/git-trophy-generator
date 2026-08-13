@@ -7,21 +7,6 @@
 
 Decorate your GitHub profile with awesome trophies!
 
-## Features
-
-- 🦕 **Deno Runtime** - Modern, secure JavaScript/TypeScript runtime
-- ⚡ **GraphQL API** - Single request for all data (faster!)
-- 🏆 **Real GitHub Stats** - Accurate data from GitHub GraphQL API
-- 🎯 **Dynamic Ranking System** - SSS to D ranks with progress tracking
-- 🎨 **Custom Trophy SVGs** - Beautiful rank-based trophy designs
-- 🎨 **Multiple Themes** - Flat, Dark, OneDark, Radical, Gruvbox, Dracula
-- 📱 **Responsive Design** - Works on all devices
-- 🔧 **Customizable** - Columns, spacing, filters, frames
-- 💾 **Easy Integration** - Simple markdown/HTML code
-- 🎯 **Filter Options** - Filter by rank or trophy name
-- 🛡️ **Error Handling** - Comprehensive error handling & validation
-- 🚀 **Production Ready** - TypeScript, secure permissions
-
 ## Installation
 
 ### Deno:
@@ -81,20 +66,6 @@ deno run --allow-net --allow-read --allow-env server.ts
 ```
 http://localhost:3000/trophy?username=YOUR_GITHUB_USERNAME
 ```
-
-### Parameters:
-
-- `username` (required): GitHub username
-- `theme` (optional): flat, dark, onedark, radical, gruvbox, dracula (default:
-  flat)
-- `column` (optional): Number of columns (default: 6)
-- `margin_w` (optional): Horizontal margin (default: 15)
-- `margin_h` (optional): Vertical margin (default: 15)
-- `no_bg` (optional): Transparent background (true/false)
-- `no_frame` (optional): Hide trophy frames (true/false)
-- `rank` (optional): Filter by rank - e.g., `S,A` or exclude with `-C,-B`
-- `title` (optional): Filter by trophy name - e.g., `Stars,Followers` or exclude
-  with `-Gists`
 
 ### Examples:
 
@@ -306,33 +277,6 @@ Contributions are welcome! Please read our
 6. Run tests: `deno task test`
 7. Format code: `deno task fmt`
 8. Submit a PR!
-
-### Project Structure
-
-```
-github-trophy/
-├── apis/               # API modules
-│   ├── githubGraphQL.ts    # GitHub GraphQL API client
-│   ├── svgGenerator.ts     # SVG trophy generator
-│   └── trophy.ts           # Trophy logic & ranking
-├── utils/              # Utility functions
-│   ├── cache.ts            # Caching utilities (currently disabled)
-│   ├── errorHandler.ts     # Error handling
-│   └── helpers.ts          # Helper functions
-├── config/             # Configuration
-│   └── config.ts           # App configuration
-├── tests/              # Test files
-│   ├── helpers_test.ts     # Helper function tests
-│   ├── trophy_test.ts      # Trophy logic tests
-│   └── svgGenerator_test.ts # SVG generation tests
-├── ass/                # Custom trophy SVG assets
-├── .github/            # GitHub templates & workflows
-│   ├── ISSUE_TEMPLATE/     # Issue templates
-│   └── workflows/          # CI/CD workflows
-├── server.ts           # Main server file
-├── deno.json          # Deno configuration & tasks
-└── docker-compose.yml # Docker setup
-```
 
 ## Security
 

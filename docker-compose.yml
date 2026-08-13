@@ -1,19 +1,6 @@
 version: "3.8"
 
 services:
-  # Redis Cache
-  redis:
-    image: redis:7-alpine
-    container_name: github-trophy-redis
-    ports:
-      - "6379:6379"
-    volumes:
-      - redis-data:/data
-    restart: unless-stopped
-    command: redis-server --appendonly yes
-    networks:
-      - github-trophy-network
-
   # GitHub Trophy App
   github-trophy:
     build:
@@ -24,21 +11,15 @@ services:
       - "3000:3000"
     environment:
       - PORT=3000
+      - NODE_ENV=production
       - GITHUB_TOKEN=${GITHUB_TOKEN}
-      - CACHE_ENABLED=true
-      - CACHE_TTL=3600
-      - REDIS_URL=redis://redis:6379
     env_file:
       - .env
-    depends_on:
-      - redis
     restart: unless-stopped
     healthcheck:
       test: [
-        "CMD",
-        "deno",
-        "eval",
-        "try { await fetch('http://localhost:3000/health'); Deno.exit(0); } catch { Deno.exit(1); }",
+        "CMD-SHELL",
+        "node -e \"const http = require('http'); http.get('http://localhost:3000/health', (res) => { process.exit(res.statusCode === 200 ? 0 : 1); }).on('error', () => process.exit(1));\""
       ]
       interval: 30s
       timeout: 10s
@@ -46,9 +27,6 @@ services:
       start_period: 5s
     networks:
       - github-trophy-network
-
-volumes:
-  redis-data:
 
 networks:
   github-trophy-network:

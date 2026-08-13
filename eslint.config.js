@@ -22,8 +22,8 @@ export default [
       "no-console": "off",
       "prefer-const": "error",
       "no-var": "error",
-      "eqeqeq": ["error", "always"],
-      "curly": ["error", "all"],
+      eqeqeq: ["error", "always"],
+      curly: ["error", "all"],
     },
   },
   {

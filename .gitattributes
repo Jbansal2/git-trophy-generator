@@ -1,0 +1,31 @@
+# Auto detect text files and normalize line endings
+* text=auto
+
+# TypeScript/JavaScript
+*.ts text eol=lf
+*.js text eol=lf
+*.json text eol=lf
+
+# SVG
+*.svg text eol=lf
+
+# Markdown
+*.md text eol=lf
+
+# YAML
+*.yml text eol=lf
+*.yaml text eol=lf
+
+# Shell scripts
+*.sh text eol=lf
+
+# Docker
+Dockerfile text eol=lf
+
+# Git
+.gitattributes text eol=lf
+.gitignore text eol=lf
+
+# Exclude files from GitHub language statistics
+ass/*.svg linguist-vendored
+public/*.html linguist-documentation

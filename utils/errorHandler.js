@@ -34,7 +34,13 @@ export class ValidationError extends APIError {
 /**
  * Error handler middleware for Express
  */
-export function errorHandler(err, req, res) {
+export function errorHandler(err, req, res, next) {
+  // Skip if res is not defined (called incorrectly)
+  if (!res || typeof res.status !== "function") {
+    console.error("Error handler called incorrectly:", err);
+    return;
+  }
+
   const error = err;
 
   console.error("Error occurred:", {
@@ -42,7 +48,7 @@ export function errorHandler(err, req, res) {
     message: error.message,
     stack: error.stack,
     timestamp: new Date().toISOString(),
-    url: req.path,
+    url: req?.path,
   });
 
   // Default error
@@ -62,7 +68,7 @@ export function errorHandler(err, req, res) {
       message,
       status: statusCode,
       timestamp: new Date().toISOString(),
-      path: req.path,
+      path: req?.path,
     },
   });
 }

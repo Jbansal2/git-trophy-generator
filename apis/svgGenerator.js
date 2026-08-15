@@ -5,26 +5,26 @@ import { dirname, join } from "path";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-// Rank to SVG file mapping
-const rankToSvgFile = {
-  SSS: "sss.svg", // SSS special trophy
-  SS: "ss.svg", // SS special trophy
-  S: "1.svg", // Gold
-  A: "3.svg", // A rank
-  B: "2.svg", // B rank
-  C: "4.svg", // C rank
-  D: "5.svg", // D rank
+// Rank to PNG file mapping
+const rankToPngFile = {
+  SSS: "sss.png", // SSS special trophy
+  SS: "ss.png", // SS special trophy
+  S: "1.png", // Gold
+  A: "3.png", // A rank
+  B: "2.png", // B rank
+  C: "4.png", // C rank
+  D: "5.png", // D rank
 };
 
-async function loadRankSvg(rank) {
-  const fileName = rankToSvgFile[rank] || "5.svg"; // Default to D rank
+async function loadRankPng(rank) {
+  const fileName = rankToPngFile[rank] || "5.png"; // Default to D rank
   try {
     const filePath = join(__dirname, "..", "ass", fileName);
-    const svgContent = await readFile(filePath, "utf-8");
-    return svgContent;
+    const pngBase64 = await readFile(filePath, 'base64');
+    return `data:image/png;base64,${pngBase64}`;
   } catch (error) {
-    console.error(`Failed to load SVG for rank ${rank}:`, error);
-    return '<svg width="120" height="160" xmlns="http://www.w3.org/2000/svg"></svg>';
+    console.error(`Failed to load PNG for rank ${rank}:`, error);
+    return null;
   }
 }
 
@@ -77,18 +77,18 @@ export async function generateTrophySVG(trophies, options) {
     }
   }
 
-  const cols = parseInt(column) || 6;
+  const cols = parseInt(column) || 3;
   const marginW = parseInt(margin_w) || 5;
   const marginH = parseInt(margin_h) || 5;
 
-  const trophyWidth = 152;
-  const trophyHeight = 162;
-  const titleBarHeight = 20;
-  const iconSize = 110;
-  const iconGap = 2;
-  const nameGap = 3;
-  const progressGap = 3;
-  const pointsGap = 8;
+  const trophyWidth = 180;
+  const trophyHeight = 210;
+  const titleBarHeight = 26;
+  const iconSize = 140;
+  const iconGap = 6;
+  const nameGap = 6;
+  const progressGap = 6;
+  const pointsGap = 10;
 
   const rows = Math.ceil(filteredTrophies.length / cols);
   const totalWidth =
@@ -147,19 +147,19 @@ export async function generateTrophySVG(trophies, options) {
   };
 
   const style = themeStyles[theme] || themeStyles.flat;
-  const actualBg = no_bg === "true" ? "transparent" : style.bg;
+  const actualBg = (no_bg === "true" || no_bg === true) ? "transparent" : style.bg;
 
   let svgContent = `<svg width="${totalWidth}" height="${totalHeight}" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     ${
-      no_bg === "true"
+      (no_bg === "true" || no_bg === true)
         ? ""
         : `<rect width="${totalWidth}" height="${totalHeight}" fill="${actualBg}"/>`
     }
     <style>
       .trophy-card { filter: ${style.shadow}; }
-      .trophy-title { font: 500 10px 'Segoe UI', Arial, sans-serif; fill: ${style.text}; opacity: 0.85; letter-spacing: 0.4px; }
-      .trophy-rank-title { font: 500 12px 'Segoe UI', Arial, sans-serif; fill: ${style.text}; opacity: 0.75; }
-      .trophy-points { font: 9px 'Segoe UI', Arial, sans-serif; fill: ${style.text}; opacity: 0.55; }
+      .trophy-title { font: 500 14px 'Segoe UI', Arial, sans-serif; fill: ${style.text}; opacity: 0.85; letter-spacing: 0.5px; }
+      .trophy-rank-title { font: 500 16px 'Segoe UI', Arial, sans-serif; fill: ${style.text}; opacity: 0.75; }
+      .trophy-points { font: 13px 'Segoe UI', Arial, sans-serif; fill: ${style.text}; opacity: 0.55; }
     </style>`;
 
   // Load all trophy SVGs
@@ -188,12 +188,8 @@ export async function generateTrophySVG(trophies, options) {
 
     const points = Math.round(trophy.progress);
 
-    // Load trophy SVG from file
-    const rankSvg = await loadRankSvg(trophy.rank);
-
-    // Extract SVG content
-    const svgContentMatch = rankSvg.match(/<svg[^>]*>([\s\S]*)<\/svg>/i);
-    const innerSvgContent = svgContentMatch ? svgContentMatch[1] : rankSvg;
+    // Load trophy PNG from file
+    const rankPngData = await loadRankPng(trophy.rank);
 
     const iconX = (trophyWidth - iconSize) / 2;
     const iconY = titleBarHeight + iconGap;
@@ -201,11 +197,10 @@ export async function generateTrophySVG(trophies, options) {
     const progressY = nameY + progressGap;
     const pointsY = progressY + progressBarHeight + pointsGap;
 
-    const iconZoom = 1.8;
-    const vbSize = 1500 / iconZoom;
-    const vbOffset = (1500 - vbSize) / 2;
-
-    const trophyIcon = `<svg x="${iconX}" y="${iconY}" width="${iconSize}" height="${iconSize}" viewBox="${vbOffset} ${vbOffset} ${vbSize} ${vbSize}" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">${innerSvgContent}</svg>`;
+    // Create trophy icon using PNG
+    const trophyIcon = rankPngData ? 
+      `<image x="${iconX}" y="${iconY}" width="${iconSize}" height="${iconSize}" href="${rankPngData}" preserveAspectRatio="xMidYMid meet"/>` :
+      `<rect x="${iconX}" y="${iconY}" width="${iconSize}" height="${iconSize}" fill="${rankColor}" opacity="0.3"/>`;
 
     const rankTextX = trophyWidth / 2;
     const rankTextY = iconY + iconSize / 2 + 6;
@@ -219,36 +214,42 @@ export async function generateTrophySVG(trophies, options) {
       ${
         no_frame !== "true"
           ? `
-        <rect width="${trophyWidth}" height="${trophyHeight}" fill="${actualBg}" stroke="${style.border}" stroke-width="2"/>
+        <rect width="${trophyWidth}" height="${trophyHeight}" fill="${(no_bg === "true" || no_bg === true) ? "transparent" : actualBg}" stroke="${style.border}" stroke-width="2"/>
         <g fill="${actualBg}">
-          <circle cx="10" cy="0" r="4"/>
-          <circle cx="30" cy="0" r="4"/>
-          <circle cx="50" cy="0" r="4"/>
-          <circle cx="70" cy="0" r="4"/>
+          <circle cx="15" cy="0" r="4"/>
+          <circle cx="40" cy="0" r="4"/>
+          <circle cx="65" cy="0" r="4"/>
           <circle cx="90" cy="0" r="4"/>
-          <circle cx="110" cy="0" r="4"/>
-          <circle cx="130" cy="0" r="4"/>
-          <circle cx="10" cy="${trophyHeight}" r="4"/>
-          <circle cx="30" cy="${trophyHeight}" r="4"/>
-          <circle cx="50" cy="${trophyHeight}" r="4"/>
-          <circle cx="70" cy="${trophyHeight}" r="4"/>
+          <circle cx="115" cy="0" r="4"/>
+          <circle cx="140" cy="0" r="4"/>
+          <circle cx="165" cy="0" r="4"/>
+          <circle cx="190" cy="0" r="4"/>
+          <circle cx="15" cy="${trophyHeight}" r="4"/>
+          <circle cx="40" cy="${trophyHeight}" r="4"/>
+          <circle cx="65" cy="${trophyHeight}" r="4"/>
           <circle cx="90" cy="${trophyHeight}" r="4"/>
-          <circle cx="110" cy="${trophyHeight}" r="4"/>
-          <circle cx="130" cy="${trophyHeight}" r="4"/>
-          <circle cx="0" cy="20" r="4"/>
-          <circle cx="0" cy="40" r="4"/>
-          <circle cx="0" cy="60" r="4"/>
-          <circle cx="0" cy="80" r="4"/>
+          <circle cx="115" cy="${trophyHeight}" r="4"/>
+          <circle cx="140" cy="${trophyHeight}" r="4"/>
+          <circle cx="165" cy="${trophyHeight}" r="4"/>
+          <circle cx="190" cy="${trophyHeight}" r="4"/>
+          <circle cx="0" cy="25" r="4"/>
+          <circle cx="0" cy="50" r="4"/>
+          <circle cx="0" cy="75" r="4"/>
           <circle cx="0" cy="100" r="4"/>
-          <circle cx="0" cy="120" r="4"/>
-          <circle cx="0" cy="140" r="4"/>
-          <circle cx="${trophyWidth}" cy="20" r="4"/>
-          <circle cx="${trophyWidth}" cy="40" r="4"/>
-          <circle cx="${trophyWidth}" cy="60" r="4"/>
-          <circle cx="${trophyWidth}" cy="80" r="4"/>
+          <circle cx="0" cy="125" r="4"/>
+          <circle cx="0" cy="150" r="4"/>
+          <circle cx="0" cy="175" r="4"/>
+          <circle cx="0" cy="200" r="4"/>
+          <circle cx="0" cy="225" r="4"/>
+          <circle cx="${trophyWidth}" cy="25" r="4"/>
+          <circle cx="${trophyWidth}" cy="50" r="4"/>
+          <circle cx="${trophyWidth}" cy="75" r="4"/>
           <circle cx="${trophyWidth}" cy="100" r="4"/>
-          <circle cx="${trophyWidth}" cy="120" r="4"/>
-          <circle cx="${trophyWidth}" cy="140" r="4"/>
+          <circle cx="${trophyWidth}" cy="125" r="4"/>
+          <circle cx="${trophyWidth}" cy="150" r="4"/>
+          <circle cx="${trophyWidth}" cy="175" r="4"/>
+          <circle cx="${trophyWidth}" cy="200" r="4"/>
+          <circle cx="${trophyWidth}" cy="225" r="4"/>
         </g>
       `
           : ""

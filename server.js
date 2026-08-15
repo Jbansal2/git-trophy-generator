@@ -20,6 +20,19 @@ const __dirname = dirname(__filename);
 
 const app = express();
 
+// Enable CORS for frontend
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+  
+  if (req.method === 'OPTIONS') {
+    res.sendStatus(200);
+  } else {
+    next();
+  }
+});
+
 // Validate tokens on startup
 if (hasGitHubToken()) {
   console.log("✅ GitHub token(s) detected");
@@ -35,6 +48,7 @@ if (hasGitHubToken()) {
 
 // Static files
 app.use(express.static(join(__dirname, "public")));
+app.use("/ass", express.static(join(__dirname, "ass")));
 
 // Root route - serve index.html
 app.get("/", async (req, res) => {
@@ -47,6 +61,39 @@ app.get("/", async (req, res) => {
     res.send(html);
   } catch {
     res.status(404).send("Not found");
+  }
+});
+
+// Trophy data JSON endpoint for frontend
+app.get("/api/trophy-data", async (req, res) => {
+  try {
+    const params = sanitizeParams(req.query);
+    const { username } = params;
+
+    if (!username) {
+      throw new ValidationError("Username is required");
+    }
+
+    if (!isValidUsername(username)) {
+      throw new ValidationError("Invalid GitHub username format");
+    }
+
+    // Fetch all stats using GraphQL
+    const trophies = await generateTrophiesFromStats(username);
+
+    res.json({
+      success: true,
+      username,
+      trophies,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    console.error("Error fetching trophy data:", errorMessage);
+    res.status(error.statusCode || 500).json({
+      success: false,
+      error: errorMessage,
+    });
   }
 });
 

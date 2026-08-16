@@ -22,7 +22,7 @@ import TrophyCard from "@/components/TrophyCard";
 
 const presets = ["torvalds", "gaearon", "sindresorhus"];
 const REPOSITORY_URL = "https://github.com/Jbansal2/git-trophy-generator";
-const TROPHY_API_BASE_URL = "http://localhost:3001/trophy";
+const TROPHY_API_BASE_URL = "https://git-trophy-generator.vercel.app/trophy";
 const TROPHY_ASSET_BASE_URL = TROPHY_API_BASE_URL.replace("/trophy", "/ass");
 console.log('Trophy API Base URL:', TROPHY_API_BASE_URL);
 const themes = [
@@ -292,7 +292,7 @@ function Generator() {
       }
     } catch (error) {
       console.error("Error fetching trophy data:", error);
-      setTrophyError(`Failed to connect to API: ${error.message}. Backend server might not be running on port 3001.`);
+      setTrophyError(`Failed to connect to the GitTrophy API: ${error.message}`);
       
       // Fallback to mock data
       const mockTrophies = Object.keys(trophyCategories).map((name, index) => ({
@@ -330,11 +330,11 @@ function Generator() {
         alert("✅ API Connection Test Successful!");
       } else {
         setApiStatus("offline");
-        alert("❌ API Connection Failed - Check if backend server is running on localhost:5000");
+        alert("❌ API Connection Failed - The GitTrophy API is unavailable");
       }
     } catch (error) {
       setApiStatus("offline");
-      alert("❌ Cannot connect to API - Make sure backend server is running on localhost:5000");
+      alert("❌ Cannot connect to the GitTrophy API");
     } finally {
       setIsLoading(false);
     }

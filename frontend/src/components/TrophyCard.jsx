@@ -1,4 +1,4 @@
-const TROPHY_API_BASE_URL = "http://localhost:3001/trophy";
+const TROPHY_API_BASE_URL = "https://git-trophy-generator.vercel.app/trophy";
 
 function TrophyCard({ item, index, activeTheme, username }) {
   const realTrophySvg = `${TROPHY_API_BASE_URL}?username=${username || 'torvalds'}&theme=flat&title=${encodeURIComponent(item.name)}&column=1&margin_w=0&margin_h=0&no_bg=true&hide_rank=true`;

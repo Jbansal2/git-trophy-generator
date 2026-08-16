@@ -3,7 +3,6 @@ import "dotenv/config";
 import express from "express";
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
-import { readFile } from "fs/promises";
 import { generateTrophiesFromStats } from "./apis/trophy.js";
 import { generateTrophySVG } from "./apis/svgGenerator.js";
 import { isValidUsername, sanitizeParams } from "./utils/helpers.js";
@@ -46,23 +45,8 @@ if (hasGitHubToken()) {
   console.log("💡 Add GITHUB_TOKEN to .env for 5000 requests/hour");
 }
 
-// Static files
-app.use(express.static(join(__dirname, "public")));
+// Trophy image assets used by the API.
 app.use("/ass", express.static(join(__dirname, "ass")));
-
-// Root route - serve index.html
-app.get("/", async (req, res) => {
-  try {
-    const html = await readFile(
-      join(__dirname, "public", "index.html"),
-      "utf-8"
-    );
-    res.set("Content-Type", "text/html");
-    res.send(html);
-  } catch {
-    res.status(404).send("Not found");
-  }
-});
 
 // Trophy data JSON endpoint for frontend
 app.get("/api/trophy-data", async (req, res) => {

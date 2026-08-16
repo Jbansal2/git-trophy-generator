@@ -9,11 +9,13 @@ const __dirname = dirname(__filename);
 const rankToPngFile = {
   SSS: "sss.png", // SSS special trophy
   SS: "ss.png", // SS special trophy
-  S: "1.png", // Gold
-  A: "3.png", // A rank
-  B: "2.png", // B rank
-  C: "4.png", // C rank
-  D: "5.png", // D rank
+  AAA: "aaa.png", // AAA special trophy
+  AA: "aa.png", // AA special trophy
+  S: "s.png", // S rank
+  A: "a.png", // A rank
+  B: "b.png", // B rank
+  C: "c.png", // C rank
+  D: "d.png", // D rank
 };
 
 async function loadRankPng(rank) {
@@ -38,6 +40,7 @@ export async function generateTrophySVG(trophies, options) {
     no_frame = false,
     rank,
     title,
+    hide_rank = false,
   } = options;
 
   let filteredTrophies = [...trophies];
@@ -81,14 +84,14 @@ export async function generateTrophySVG(trophies, options) {
   const marginW = parseInt(margin_w) || 5;
   const marginH = parseInt(margin_h) || 5;
 
-  const trophyWidth = 180;
-  const trophyHeight = 210;
-  const titleBarHeight = 26;
-  const iconSize = 140;
-  const iconGap = 6;
-  const nameGap = 6;
-  const progressGap = 6;
-  const pointsGap = 10;
+  const trophyWidth = 140;
+  const trophyHeight = 160;
+  const titleBarHeight = 20;
+  const iconSize = 150;
+  const iconGap = -25;
+  const nameGap = -22;
+  const progressGap = 5;
+  const pointsGap = 13;
 
   const rows = Math.ceil(filteredTrophies.length / cols);
   const totalWidth =
@@ -157,8 +160,8 @@ export async function generateTrophySVG(trophies, options) {
     }
     <style>
       .trophy-card { filter: ${style.shadow}; }
-      .trophy-title { font: 500 14px 'Segoe UI', Arial, sans-serif; fill: ${style.text}; opacity: 0.85; letter-spacing: 0.5px; }
-      .trophy-rank-title { font: 500 16px 'Segoe UI', Arial, sans-serif; fill: ${style.text}; opacity: 0.75; }
+      .trophy-title { font: 300 11px 'Segoe UI', Arial, sans-serif; fill: ${style.text}; opacity: 0.85; letter-spacing: 0.5px; }
+      .trophy-rank-title { font: 300 11px 'Segoe UI', Arial, sans-serif; fill: ${style.text}; opacity: 0.75; }
       .trophy-points { font: 13px 'Segoe UI', Arial, sans-serif; fill: ${style.text}; opacity: 0.55; }
     </style>`;
 
@@ -173,14 +176,28 @@ export async function generateTrophySVG(trophies, options) {
     const rankColors = {
       SSS: "#FFD700",
       SS: "#FFA500",
+      AAA: "#FF1744",
+      AA: "#d9d9d9",
       S: "#FF6347",
       A: "#4169E1",
       B: "#32CD32",
-      C: "#90EE90",
+      C: "#3e692a",
       D: "#808080",
     };
 
+    // Trophy category colors for title bar (matching actual trophy PNG colors)
+    const categoryColors = {
+      "Stars": "#4169E1",        
+      "Commits": "#E91E63",      
+      "Issues": "#4169E1",       
+      "Pull Requests": "#E91E63", 
+      "Followers": "#4169E1",   
+      "Repositories": "#d9d9d9",  
+      "Experience": "#3e692a"   
+    };
+
     const rankColor = rankColors[trophy.rank] || "#808080";
+    const categoryColor = categoryColors[trophy.name] || rankColor;
 
     const progressBarWidth = 115;
     const progressBarHeight = 4;
@@ -204,10 +221,10 @@ export async function generateTrophySVG(trophies, options) {
 
     const rankTextX = trophyWidth / 2;
     const rankTextY = iconY + iconSize / 2 + 6;
-    const rankCircle = `<circle cx="${rankTextX}" cy="${
+    const rankCircle = hide_rank ? '' : `<circle cx="${rankTextX}" cy="${
       rankTextY - 6
     }" r="8" fill="white" opacity="0.95" stroke="#cccccc" stroke-width="1"/>`;
-    const rankText = `<text x="${rankTextX}" y="${rankTextY}" font-size="11" font-weight="bold" fill="#000000" text-anchor="middle" font-family="Arial, sans-serif">${trophy.rank}</text>`;
+    const rankText = hide_rank ? '' : `<text x="${rankTextX}" y="${rankTextY}" font-size="11" font-weight="bold" fill="#000000" text-anchor="middle" font-family="Arial, sans-serif">${trophy.rank}</text>`;
 
     svgContent += `
     <g class="trophy-card" transform="translate(${x}, ${y})">
@@ -222,16 +239,12 @@ export async function generateTrophySVG(trophies, options) {
           <circle cx="90" cy="0" r="4"/>
           <circle cx="115" cy="0" r="4"/>
           <circle cx="140" cy="0" r="4"/>
-          <circle cx="165" cy="0" r="4"/>
-          <circle cx="190" cy="0" r="4"/>
           <circle cx="15" cy="${trophyHeight}" r="4"/>
           <circle cx="40" cy="${trophyHeight}" r="4"/>
           <circle cx="65" cy="${trophyHeight}" r="4"/>
           <circle cx="90" cy="${trophyHeight}" r="4"/>
           <circle cx="115" cy="${trophyHeight}" r="4"/>
           <circle cx="140" cy="${trophyHeight}" r="4"/>
-          <circle cx="165" cy="${trophyHeight}" r="4"/>
-          <circle cx="190" cy="${trophyHeight}" r="4"/>
           <circle cx="0" cy="25" r="4"/>
           <circle cx="0" cy="50" r="4"/>
           <circle cx="0" cy="75" r="4"/>
@@ -239,8 +252,6 @@ export async function generateTrophySVG(trophies, options) {
           <circle cx="0" cy="125" r="4"/>
           <circle cx="0" cy="150" r="4"/>
           <circle cx="0" cy="175" r="4"/>
-          <circle cx="0" cy="200" r="4"/>
-          <circle cx="0" cy="225" r="4"/>
           <circle cx="${trophyWidth}" cy="25" r="4"/>
           <circle cx="${trophyWidth}" cy="50" r="4"/>
           <circle cx="${trophyWidth}" cy="75" r="4"/>
@@ -248,16 +259,14 @@ export async function generateTrophySVG(trophies, options) {
           <circle cx="${trophyWidth}" cy="125" r="4"/>
           <circle cx="${trophyWidth}" cy="150" r="4"/>
           <circle cx="${trophyWidth}" cy="175" r="4"/>
-          <circle cx="${trophyWidth}" cy="200" r="4"/>
-          <circle cx="${trophyWidth}" cy="225" r="4"/>
         </g>
       `
           : ""
       }
-      <rect x="0" y="0" width="${trophyWidth}" height="${titleBarHeight}" fill="${style.titleBg}"/>
+      <rect x="0" y="0" width="${trophyWidth}" height="${titleBarHeight}" fill="${categoryColor}"/>
       <text class="trophy-title" x="${trophyWidth / 2}" y="${
         titleBarHeight / 2 + 4
-      }" text-anchor="middle">${trophy.name.toUpperCase()}</text>
+      }" text-anchor="middle" fill="#ffffff" font-weight="600">${trophy.name.toUpperCase()}</text>
       ${trophyIcon}
       ${rankCircle}
       ${rankText}

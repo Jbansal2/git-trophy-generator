@@ -1,4 +1,6 @@
-# 🏆 GitHub Trophy Generator
+<div align="center">
+  <img src="ass/logo1.png" alt="GitHub Trophy Generator Logo" width="200"/>
+</div>
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Node Version](https://img.shields.io/badge/node-v18%2B-green.svg)](https://nodejs.org)
@@ -6,59 +8,6 @@
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
 Decorate your GitHub profile with awesome trophies!
-
-## Installation
-
-### Node.js:
-
-```bash
-# Clone the repository
-git clone https://github.com/Jbansal2/git-trophy-generator.git
-cd git-trophy-generator
-
-# Install dependencies
-npm install
-```
-
-### GitHub Token (Recommended)
-
-For higher rate limits, create a GitHub Personal Access Token:
-
-1. Go to https://github.com/settings/tokens
-2. Generate new token (classic)
-3. Select scopes: `read:user`, `public_repo`
-4. Copy `.env.example` to `.env`
-5. Add your token to `.env`:
-   ```
-   GITHUB_TOKEN=your_github_token_here
-   ```
-
-**Rate Limits:**
-
-- Without token: 60 requests/hour
-- With token: 5000 requests/hour
-
-## Usage
-
-### Start the server:
-
-```bash
-npm start
-```
-
-The server will run at `http://localhost:3000`.
-
-### Development mode:
-
-```bash
-npm run dev
-```
-
-### Manual run:
-
-```bash
-node server.js
-```
 
 ## API Usage
 
@@ -111,27 +60,68 @@ http://localhost:3000/trophy?username=YOUR_GITHUB_USERNAME
 
 ### Trophy Categories:
 
-1. **⭐ Stars** - Total stars earned across repositories
-2. **💻 Commits** - Estimated commit count
-3. **🔧 Issues** - Total issues created
-4. **🔀 Pull Requests** - Total PRs created
-5. **👥 Followers** - GitHub followers
-6. **📦 Repositories** - Public repositories count
-7. **🎖️ Experience** - Account age in years
+1. ** Stars** - Total stars earned across repositories
+2. ** Commits** - Estimated commit count
+3. ** Issues** - Total issues created
+4. ** Pull Requests** - Total PRs created
+5. ** Followers** - GitHub followers
+6. ** Repositories** - Public repositories count
+7. ** Experience** - Account age in years
 
 ### Rank System:
 
-| Rank    | Title              | Description                       | Percentile      |
-| ------- | ------------------ | --------------------------------- | --------------- |
-| **SSS** | **Mythic** 🌌      | Top 0.1% - Legendary contributors | ≥ 100,000 stars |
-| **SS**  | **Grandmaster** 👑 | Top 1% - Elite maintainers        | ≥ 50,000 stars  |
-| **S**   | **Champion** 🏆    | Top 5% - Established leaders      | ≥ 10,000 stars  |
-| **A**   | **Veteran** 🎖️     | Top 20% - Experienced developers  | ≥ 2,000 stars   |
-| **B**   | **Challenger** ⚔️  | Top 45% - Rising contributors     | ≥ 400 stars     |
-| **C**   | **Contender** 🌟   | Top 72% - Active participants     | ≥ 80 stars      |
-| **D**   | **Rookie** 🚀      | Starting journey - Welcome!       | < 80 stars      |
+The rank system evaluates your GitHub profile across 7 different categories. Each trophy has its own ranking thresholds based on the metric.
 
-_Note: Thresholds vary by trophy category_
+#### Rank Badges:
+
+| Rank | Badge | Title | Tier | Achievement |
+|------|-------|-------|------|-------------|
+| **SSS** | <img src="ass/sss.png" width="40"/> | Legendary | Mythic | Top 0.1% - Living legend |
+| **SS** | <img src="ass/ss.png" width="40"/> | Grandmaster | Elite | Top 1% - Elite status |
+| **AAA** | <img src="ass/aaa.png" width="40"/> | Champion Elite | Master | Top 3% - Masters level |
+| **AA** | <img src="ass/aa.png" width="40"/> | Champion | Expert | Top 5% - Expert level |
+| **S** | <img src="ass/s.png" width="40"/> | Star Performer | Advanced | Top 10% - Well established |
+| **A** | <img src="ass/a.png" width="40"/> | Veteran | Intermediate | Top 20% - Experienced |
+| **B** | <img src="ass/b.png" width="40"/> | Challenger | Intermediate | Top 45% - Rising star |
+| **C** | <img src="ass/c.png" width="40"/> | Contender | Beginner | Top 72% - Active member |
+| **D** | <img src="ass/d.png" width="40"/> | Rookie | Rookie | Just getting started |
+
+#### Trophy Category Thresholds:
+
+| Category | Icon | SSS | SS | AAA | AA | S | A | B | C | D |
+|----------|------|-----|-------|-----|-------|-------|------|------|-------|------|
+| **Stars** | ⭐ | 100K | 50K | 30K | 20K | 10K | 2K | 400 | 80 | 1 |
+| **Commits** | 💻 | 20K | 10K | 7K | 6K | 5K | 2K | 1K | 500 | 100 |
+| **Issues** | 🔧 | 1K | 500 | 350 | 250 | 200 | 100 | 50 | 20 | 5 |
+| **Pull Requests** | 🔀 | 500 | 300 | 225 | 180 | 150 | 75 | 30 | 10 | 2 |
+| **Followers** | 👥 | 10K | 5K | 3K | 2K | 1K | 200 | 50 | 10 | 1 |
+| **Repositories** | 📦 | 200 | 100 | 75 | 60 | 50 | 20 | 10 | 5 | 1 |
+| **Experience** | �️ | 12y | 10y | 9y | 8.5y | 8y | 5y | 3y | 2y | 1y |
+
+#### How Ranks Work:
+
+- Each trophy category is ranked independently based on your GitHub activity
+- Your overall trophy card displays all 7 categories with their current ranks and progress
+- The progress bar shows how close you are to the next rank tier
+- Ranks are calculated in real-time based on your public GitHub profile data
+
+#### Special Rank Titles by Category:
+
+**Stars Titles:** Rookie → Emerging → Rising Star → Popular → Acclaimed → Mega Star → Ultra Star → Superstar → Legendary Project
+
+**Commits Titles:** Rookie → Active → Investigator → Reporter → Fixer → Debugger → Dedicated → Consistent → Relentless Coder
+
+**Issues Titles:** Rookie → Reporter → Investigator → Debugger → Fixer → Issue Solver → Bug Hunter → Guardian → Bug Slayer
+
+**Pull Requests Titles:** Rookie → Helper → Contributor → Collaborator → Merger → PR Champion → Merge Expert → Merge Master → Integration Legend
+
+**Followers Titles:** Rookie → Known → Rising Voice → Influencer → Community Leader → Rising Star → Influencer Elite → Icon → Celebrity
+
+**Repositories Titles:** Rookie → Starter → Builder → Creator → Architect → Project Master → Repository King → Founder → Empire Builder
+
+**Experience Titles:** Rookie → Learner → Apprentice → Journeyman → Veteran → Elder → Ancient One → Master → Legend
+
+_Note: Thresholds and titles are customized for each trophy category to reflect meaningful achievement levels_
 
 ## Themes
 

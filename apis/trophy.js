@@ -8,6 +8,8 @@ function getRankTitle(rank, category) {
     Stars: {
       SSS: "Legendary Project",
       SS: "Superstar",
+      AAA: "Ultra Star",
+      AA: "Mega Star",
       S: "Acclaimed",
       A: "Popular",
       B: "Rising Star",
@@ -17,6 +19,8 @@ function getRankTitle(rank, category) {
     Commits: {
       SSS: "Relentless Coder",
       SS: "Commit Machine",
+      AAA: "Code Warrior",
+      AA: "Code Master",
       S: "Committer",
       A: "Dedicated",
       B: "Consistent",
@@ -26,6 +30,8 @@ function getRankTitle(rank, category) {
     Issues: {
       SSS: "Bug Slayer",
       SS: "Guardian",
+      AAA: "Bug Hunter",
+      AA: "Issue Solver",
       S: "Fixer",
       A: "Debugger",
       B: "Investigator",
@@ -35,6 +41,8 @@ function getRankTitle(rank, category) {
     "Pull Requests": {
       SSS: "Integration Legend",
       SS: "Merge Master",
+      AAA: "PR Champion",
+      AA: "Merge Expert",
       S: "Merger",
       A: "Collaborator",
       B: "Contributor",
@@ -44,6 +52,8 @@ function getRankTitle(rank, category) {
     Followers: {
       SSS: "Celebrity",
       SS: "Icon",
+      AAA: "Influencer Elite",
+      AA: "Rising Star",
       S: "Community Leader",
       A: "Influencer",
       B: "Rising Voice",
@@ -53,6 +63,8 @@ function getRankTitle(rank, category) {
     Repositories: {
       SSS: "Empire Builder",
       SS: "Founder",
+      AAA: "Repository King",
+      AA: "Project Master",
       S: "Architect",
       A: "Creator",
       B: "Builder",
@@ -62,6 +74,8 @@ function getRankTitle(rank, category) {
     Experience: {
       SSS: "Legend",
       SS: "Master",
+      AAA: "Ancient One",
+      AA: "Elder",
       S: "Veteran",
       A: "Journeyman",
       B: "Apprentice",
@@ -89,11 +103,27 @@ function calculateRank(value, thresholds, category) {
         ((value - thresholds.SS) / (thresholds.SSS - thresholds.SS)) * 100,
       title: "",
     };
+  } else if (value >= thresholds.AAA) {
+    rankData = {
+      rank: "AAA",
+      next: thresholds.SS,
+      progress:
+        ((value - thresholds.AAA) / (thresholds.SS - thresholds.AAA)) * 100,
+      title: "",
+    };
+  } else if (value >= thresholds.AA) {
+    rankData = {
+      rank: "AA",
+      next: thresholds.AAA,
+      progress:
+        ((value - thresholds.AA) / (thresholds.AAA - thresholds.AA)) * 100,
+      title: "",
+    };
   } else if (value >= thresholds.S) {
     rankData = {
       rank: "S",
-      next: thresholds.SS,
-      progress: ((value - thresholds.S) / (thresholds.SS - thresholds.S)) * 100,
+      next: thresholds.AA,
+      progress: ((value - thresholds.S) / (thresholds.AA - thresholds.S)) * 100,
       title: "",
     };
   } else if (value >= thresholds.A) {
@@ -153,6 +183,8 @@ export async function generateTrophiesFromStats(username) {
       {
         SSS: 100000,
         SS: 50000,
+        AAA: 30000,
+        AA: 20000,
         S: 10000,
         A: 2000,
         B: 400,
@@ -178,6 +210,8 @@ export async function generateTrophiesFromStats(username) {
       {
         SSS: 20000,
         SS: 10000,
+        AAA: 7000,
+        AA: 6000,
         S: 5000,
         A: 2000,
         B: 1000,
@@ -203,6 +237,8 @@ export async function generateTrophiesFromStats(username) {
       {
         SSS: 1000,
         SS: 500,
+        AAA: 350,
+        AA: 250,
         S: 200,
         A: 100,
         B: 50,
@@ -228,6 +264,8 @@ export async function generateTrophiesFromStats(username) {
       {
         SSS: 500,
         SS: 300,
+        AAA: 225,
+        AA: 180,
         S: 150,
         A: 75,
         B: 30,
@@ -253,6 +291,8 @@ export async function generateTrophiesFromStats(username) {
       {
         SSS: 10000,
         SS: 5000,
+        AAA: 3000,
+        AA: 2000,
         S: 1000,
         A: 200,
         B: 50,
@@ -278,6 +318,8 @@ export async function generateTrophiesFromStats(username) {
       {
         SSS: 200,
         SS: 100,
+        AAA: 75,
+        AA: 60,
         S: 50,
         A: 20,
         B: 10,
@@ -307,6 +349,8 @@ export async function generateTrophiesFromStats(username) {
       {
         SSS: 12,
         SS: 10,
+        AAA: 9,
+        AA: 8.5,
         S: 8,
         A: 5,
         B: 3,

@@ -18,6 +18,7 @@ import {
   Zap,
 } from "lucide-react";
 import "@/App.css";
+import TrophyCard from "@/components/TrophyCard";
 
 const presets = ["torvalds", "gaearon", "sindresorhus"];
 const REPOSITORY_URL = "https://github.com/Jbansal2/git-trophy-generator";
@@ -48,23 +49,29 @@ const faqs = [
   ["What API features are available?", "The backend provides live trophy generation, health checking, rate limit monitoring, and supports multiple themes and filtering options. Perfect for integration into your projects."],
 ];
 const showcaseTrophies = [
-  { rank: "SSS", label: "LEGENDARY", title: "Legendary Project", icon: "⭐", stat: "100k+ stars earned", detail: "top 0.1% of contributors", accent: "gold", category: "Stars" },
-  { rank: "SS", label: "MYTHIC", title: "Commit Machine", icon: "💻", stat: "20k+ commits", detail: "top 0.5% of contributors", accent: "silver", category: "Commits" },
-  { rank: "S", label: "EPIC", title: "Bug Slayer", icon: "🔧", stat: "1000+ issues", detail: "top 1% of contributors", accent: "bronze", category: "Issues" },
-  { rank: "A", label: "RARE", title: "Integration Legend", icon: "🔀", stat: "500+ pull requests", detail: "top 5% of contributors", accent: "purple", category: "Pull Requests" },
-  { rank: "B", label: "UNCOMMON", title: "Celebrity", icon: "👥", stat: "10k+ followers", detail: "top 10% of contributors", accent: "cyan", category: "Followers" },
-  { rank: "C", label: "COMMON", title: "Empire Builder", icon: "📦", stat: "200+ repositories", detail: "top 25% of contributors", accent: "green", category: "Repositories" },
-  { rank: "D", label: "ROOKIE", title: "Legend", icon: "🎖️", stat: "12+ years experience", detail: "top 50% of contributors", accent: "amber", category: "Experience" },
+  { rank: "TOP", label: "ULTIMATE", title: "Completionist", icon: "🏆", stat: "All SSS Ranks", detail: "Ultimate achievement", accent: "rainbow", category: "Ultimate", isSpecial: true },
+  { rank: "SSS", label: "LEGENDARY", title: "Legendary Project", icon: "⭐", stat: "100,000+ stars", detail: "SSS rank threshold", accent: "gold", category: "Stars" },
+  { rank: "SS", label: "MYTHIC", title: "Commit Machine", icon: "💻", stat: "10,000+ commits", detail: "SS rank threshold", accent: "silver", category: "Commits" },
+  { rank: "AAA", label: "ULTRA", title: "Ultra Star", icon: "⭐", stat: "30,000+ stars", detail: "AAA rank threshold", accent: "gold", category: "Stars" },
+  { rank: "AA", label: "MEGA", title: "Code Master", icon: "💻", stat: "6,000+ commits", detail: "AA rank threshold", accent: "silver", category: "Commits" },
+  { rank: "S", label: "EPIC", title: "Fixer", icon: "🔧", stat: "200+ issues", detail: "S rank threshold", accent: "bronze", category: "Issues" },
+  { rank: "A", label: "RARE", title: "Collaborator", icon: "🔀", stat: "75+ pull requests", detail: "A rank threshold", accent: "purple", category: "Pull Requests" },
+  { rank: "B", label: "UNCOMMON", title: "Rising Voice", icon: "👥", stat: "50+ followers", detail: "B rank threshold", accent: "cyan", category: "Followers" },
+  { rank: "C", label: "COMMON", title: "Starter", icon: "📦", stat: "5+ repositories", detail: "C rank threshold", accent: "green", category: "Repositories" },
+  { rank: "D", label: "ROOKIE", title: "Rookie", icon: "🎖️", stat: "1+ year experience", detail: "D rank threshold", accent: "amber", category: "Experience" },
 ];
 
 const rankToPngFile = {
+  TOP: "top.png",
   SSS: "sss.png",
   SS: "ss.png",
-  S: "1.png",
-  A: "3.png",
-  B: "2.png",
-  C: "4.png",
-  D: "5.png",
+  AAA: "aaa.png",
+  AA: "aa.png",
+  S: "s.png",
+  A: "a.png",
+  B: "b.png",
+  C: "c.png",
+  D: "d.png",
 };
 
 function getTrophyPngUrl(rank) {
@@ -83,7 +90,7 @@ function Logo() {
 
 function TrophyMiniCard({ item, index, activeTheme, username }) {
   // Use transparent background for mini cards to make them look like PNG
-  const realTrophySvg = `${TROPHY_API_BASE_URL}?username=${username || 'torvalds'}&theme=flat&rank=${item.rank}&title=${item.name}&column=1&margin_w=0&margin_h=0&no_bg=true`;
+  const realTrophySvg = `${TROPHY_API_BASE_URL}?username=${username || 'torvalds'}&theme=flat&rank=${item.rank}&title=&hide_rank=true&column=1&margin_w=0&margin_h=0&no_bg=true`;
 
   return (
     <div className="trophy-svg-only" style={{
@@ -376,7 +383,7 @@ function Generator() {
           </aside>
 
             <div className="trophy-preview" style={{ "--theme-color": theme.color }}>
-            <div className="preview-heading"><div><span className="eyebrow">TROPHY WALL / {category.toUpperCase()}</span><h3>@{username || "username"}</h3></div><span className="rank-badge">S RANK <span>✦</span></span></div>
+            <div className="preview-heading"><div><span className="eyebrow">TROPHY WALL / {category.toUpperCase()}</span><h3>@{username || "username"}</h3></div></div>
             <div className="profile-strip"><div className="avatar">{(username || "US").slice(0, 2).toUpperCase()}</div><div><strong>{username || "username"}</strong><span>live GitHub trophy profile</span></div><div className="profile-stats"><span><b>API</b> connected</span><span><b>SVG</b> generated</span><span><b>LIVE</b> now</span></div></div>
             
             {trophyError && (
@@ -424,14 +431,14 @@ function Generator() {
                     alt={`Live GitHub trophies for ${username}`} 
                     data-testid="live-api-trophy-image" 
                     style={{
-                      width: 'max-content',
-                      minWidth: '100%',
-                      maxWidth: 'none',
+                      width: '100%',
+                      maxWidth: '100%',
                       height: 'auto',
                       display: 'block',
                       border: '1px solid #e1e4e8',
                       borderRadius: '8px',
-                      background: '#ffffff'
+                      background: '#ffffff',
+                      objectFit: 'contain'
                     }}
                     onError={() => setLiveImageError(true)} 
                   />
@@ -538,7 +545,43 @@ function App() {
         <div className="ticker"><div className="ticker-track"><span>COMMIT</span><b>✦</b><span>CONTRIBUTE</span><b>✦</b><span>CONQUER</span><b>✦</b><span>COMMIT</span><b>✦</b><span>CONTRIBUTE</span><b>✦</b><span>CONQUER</span><b>✦</b></div></div>
         <Generator />
 
-        <section className="showcase-section section-shell" id="showcase" data-testid="showcase-section"><div className="section-kicker"><span>03</span><span className="kicker-line" /> Hall of fame</div><div className="section-heading"><h2>Not all trophies<br /><em>are created equal.</em></h2><p>Every contribution tells a story. Browse the trophy wall by rank, from rare wins to legendary status.</p></div><div className="showcase-grid">{showcaseTrophies.map((card) => <article className={`showcase-card ${card.accent}`} key={card.rank} data-testid={`showcase-${card.rank.toLowerCase()}-trophy-card`}><div className="showcase-rank-row"><div className="showcase-label">{card.label}</div><span className="showcase-rank" data-testid={`showcase-${card.rank.toLowerCase()}-rank`}>{card.rank} RANK</span></div><div className="showcase-trophy-container"><img src={getTrophyPngUrl(card.rank)} alt={`${card.rank} rank trophy for ${card.category}`} className="showcase-trophy-image" onError={(e) => { e.currentTarget.src = getTrophyPngUrl("D"); }} /></div><h3>{card.title}</h3><p>{card.stat}</p><span className="showcase-detail">{card.detail}</span><div className="card-arrow"><ArrowUpRight /></div></article>)}</div></section>
+        <section className="showcase-section section-shell" id="showcase" data-testid="showcase-section">
+          <div className="section-kicker"><span>03</span><span className="kicker-line" /> Hall of fame</div>
+          <div className="section-heading"><h2>Not all trophies<br /><em>are created equal.</em></h2><p>Every contribution tells a story. Browse the trophy wall by rank, from rare wins to legendary status.</p></div>
+          <div className="ranks-table">
+            <div className="table-header">
+              <div>RANK</div>
+              <div>TROPHY</div>
+              <div>TITLE</div>
+              <div>ACHIEVEMENT</div>
+              <div>PERCENTILE</div>
+            </div>
+            {showcaseTrophies.map((card) => (
+              <div className={`table-row ${card.isSpecial ? 'special-top' : ''}`} key={card.rank} data-testid={`showcase-${card.rank.toLowerCase()}-trophy-card`}>
+                <div className="table-cell rank-cell">
+                  <span className={`rank-badge ${card.isSpecial ? 'top-badge' : ''}`}>{card.rank}</span>
+                  <span className="rank-label">{card.label}</span>
+                </div>
+                <div className={`table-cell trophy-cell ${card.isSpecial ? 'top-trophy' : ''}`}>
+                  <img 
+                    src={getTrophyPngUrl(card.rank)} 
+                    alt={`${card.rank} rank trophy`} 
+                    onError={(e) => { e.currentTarget.src = getTrophyPngUrl("D"); }} 
+                  />
+                </div>
+                <div className="table-cell title-cell">
+                  {card.title}
+                </div>
+                <div className="table-cell stat-cell">
+                  {card.stat}
+                </div>
+                <div className="table-cell detail-cell">
+                  {card.detail}
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
 
         <section className="how-section section-shell" id="how-it-works" data-testid="how-it-works-section"><div className="section-kicker"><span>04</span><span className="kicker-line" /> Three clicks, max</div><div className="section-heading"><h2>From graph to<br /><em>glory.</em></h2><p>No setup. No OAuth dance. Just your username and a little well-earned recognition.</p></div><div className="steps"><div className="step"><div className="step-number">01</div><div className="step-icon"><Github /></div><h3>Enter your username</h3><p>We start with the handle that has been doing the heavy lifting.</p></div><div className="step"><div className="step-number">02</div><div className="step-icon"><Layers3 /></div><h3>Pick your trophy vibe</h3><p>Choose a theme that feels like you. Loud, calm, or somewhere in between.</p></div><div className="step"><div className="step-number">03</div><div className="step-icon"><Zap /></div><h3>Show the receipts</h3><p>Copy the snippet, export the SVG, and let your README do the talking.</p></div></div></section>
 

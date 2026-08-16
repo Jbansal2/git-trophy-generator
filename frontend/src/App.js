@@ -1,4 +1,5 @@
 import { useMemo, useState, useEffect } from "react";
+import { Analytics } from "@vercel/analytics/react";
 import {
   ArrowDown,
   ArrowRight,
@@ -591,6 +592,7 @@ function App() {
       </main>
 
       <footer className="footer section-shell" data-testid="site-footer"><div className="footer-top"><Logo /><div className="footer-links"><a href="#generator" data-testid="footer-generator-link">Generator</a><a href="#showcase" data-testid="footer-showcase-link">Showcase</a><a href={REPOSITORY_URL} target="_blank" rel="noreferrer" data-testid="footer-github-link">GitHub <ExternalLink size={13} /></a></div><button className="back-top" type="button" data-testid="back-to-top-button" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>back to top <ArrowDown size={15} /></button></div><div className="footer-wordmark">SHIP <span>WITH</span> PRIDE.</div><div className="footer-bottom"><span>© 2025 GitTrophy.io</span><span>Built for the open source obsessed <span className="green-dot" /></span><span>v1.0.0 / demo</span></div></footer>
+      <Analytics />
     </div>
   );
 }

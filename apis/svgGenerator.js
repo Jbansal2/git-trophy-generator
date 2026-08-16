@@ -22,7 +22,7 @@ async function loadRankPng(rank) {
   const fileName = rankToPngFile[rank] || "5.png"; // Default to D rank
   try {
     const filePath = join(__dirname, "..", "ass", fileName);
-    const pngBase64 = await readFile(filePath, 'base64');
+    const pngBase64 = await readFile(filePath, "base64");
     return `data:image/png;base64,${pngBase64}`;
   } catch (error) {
     console.error(`Failed to load PNG for rank ${rank}:`, error);
@@ -90,8 +90,6 @@ export async function generateTrophySVG(trophies, options) {
   const iconSize = 110;
   const iconGap = -10;
   const nameGap = 1;
-  const progressGap = 10;
-  const pointsGap = 13;
 
   const rows = Math.ceil(filteredTrophies.length / cols);
   const totalWidth =
@@ -174,11 +172,12 @@ export async function generateTrophySVG(trophies, options) {
   };
 
   const style = themeStyles[theme] || themeStyles.flat;
-  const actualBg = (no_bg === "true" || no_bg === true) ? "transparent" : style.bg;
+  const actualBg =
+    no_bg === "true" || no_bg === true ? "transparent" : style.bg;
 
   let svgContent = `<svg width="${totalWidth}" height="${totalHeight}" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     ${
-      (no_bg === "true" || no_bg === true)
+      no_bg === "true" || no_bg === true
         ? ""
         : `<rect width="${totalWidth}" height="${totalHeight}" fill="${actualBg}"/>`
     }
@@ -229,23 +228,27 @@ export async function generateTrophySVG(trophies, options) {
     const pointsY = nameY + 18;
 
     // Create trophy icon using PNG
-    const trophyIcon = rankPngData ? 
-      `<image x="${iconX}" y="${iconY}" width="${iconSize}" height="${iconSize}" href="${rankPngData}" preserveAspectRatio="xMidYMid meet"/>` :
-      `<rect x="${iconX}" y="${iconY}" width="${iconSize}" height="${iconSize}" fill="${rankColor}" opacity="0.3"/>`;
+    const trophyIcon = rankPngData
+      ? `<image x="${iconX}" y="${iconY}" width="${iconSize}" height="${iconSize}" href="${rankPngData}" preserveAspectRatio="xMidYMid meet"/>`
+      : `<rect x="${iconX}" y="${iconY}" width="${iconSize}" height="${iconSize}" fill="${rankColor}" opacity="0.3"/>`;
 
     const rankTextX = trophyWidth / 2;
     const rankTextY = iconY + iconSize / 2 + 6;
-    const rankCircle = hide_rank ? '' : `<circle cx="${rankTextX}" cy="${
-      rankTextY - 6
-    }" r="8" fill="white" opacity="0.95" stroke="#cccccc" stroke-width="1"/>`;
-    const rankText = hide_rank ? '' : `<text x="${rankTextX}" y="${rankTextY}" font-size="11" font-weight="bold" fill="#000000" text-anchor="middle" font-family="Arial, sans-serif">${trophy.rank}</text>`;
+    const rankCircle = hide_rank
+      ? ""
+      : `<circle cx="${rankTextX}" cy="${
+          rankTextY - 6
+        }" r="8" fill="white" opacity="0.95" stroke="#cccccc" stroke-width="1"/>`;
+    const rankText = hide_rank
+      ? ""
+      : `<text x="${rankTextX}" y="${rankTextY}" font-size="11" font-weight="bold" fill="#000000" text-anchor="middle" font-family="Arial, sans-serif">${trophy.rank}</text>`;
 
     svgContent += `
     <g class="trophy-card" transform="translate(${x}, ${y})">
       ${
         no_frame !== "true"
           ? `
-        <rect width="${trophyWidth}" height="${trophyHeight}" fill="${(no_bg === "true" || no_bg === true) ? "transparent" : actualBg}" stroke="${style.border}" stroke-width="2"/>
+        <rect width="${trophyWidth}" height="${trophyHeight}" fill="${no_bg === "true" || no_bg === true ? "transparent" : actualBg}" stroke="${style.border}" stroke-width="2"/>
         <g fill="${actualBg}">
           <circle cx="15" cy="0" r="4"/>
           <circle cx="40" cy="0" r="4"/>
@@ -287,9 +290,13 @@ export async function generateTrophySVG(trophies, options) {
       <text class="trophy-rank-title" x="${
         trophyWidth / 2
       }" y="${nameY}" text-anchor="middle">${trophy.title}</text>
-      ${hide_rank ? '' : `<text class="trophy-points" x="${
-        trophyWidth / 2
-      }" y="${pointsY}" text-anchor="middle">${points} pt</text>`}
+      ${
+        hide_rank
+          ? ""
+          : `<text class="trophy-points" x="${
+              trophyWidth / 2
+            }" y="${pointsY}" text-anchor="middle">${points} pt</text>`
+      }
       <rect x="${
         (trophyWidth - progressBarWidth) / 2
       }" y="${progressY}" width="${progressBarWidth}" height="${progressBarHeight}" fill="${style.progressBg}"/>

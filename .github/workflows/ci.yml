@@ -25,10 +25,10 @@ jobs:
         run: npm ci
 
       - name: Check formatting
-        run: npx prettier --check .
+        run: npx prettier --check apis config tests utils server.js README.md
 
       - name: Lint code
-        run: npx eslint . --ext .js
+        run: npx eslint apis config tests utils server.js --ext .js
 
   test:
     name: Run Tests

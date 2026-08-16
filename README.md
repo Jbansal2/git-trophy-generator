@@ -74,29 +74,29 @@ The rank system evaluates your GitHub profile across 7 different categories. Eac
 
 #### Rank Badges:
 
-| Rank | Badge | Title | Tier | Achievement |
-|------|-------|-------|------|-------------|
-| **SSS** | <img src="ass/sss.png" width="40"/> | Legendary | Mythic | Top 0.1% - Living legend |
-| **SS** | <img src="ass/ss.png" width="40"/> | Grandmaster | Elite | Top 1% - Elite status |
-| **AAA** | <img src="ass/aaa.png" width="40"/> | Champion Elite | Master | Top 3% - Masters level |
-| **AA** | <img src="ass/aa.png" width="40"/> | Champion | Expert | Top 5% - Expert level |
-| **S** | <img src="ass/s.png" width="40"/> | Star Performer | Advanced | Top 10% - Well established |
-| **A** | <img src="ass/a.png" width="40"/> | Veteran | Intermediate | Top 20% - Experienced |
-| **B** | <img src="ass/b.png" width="40"/> | Challenger | Intermediate | Top 45% - Rising star |
-| **C** | <img src="ass/c.png" width="40"/> | Contender | Beginner | Top 72% - Active member |
-| **D** | <img src="ass/d.png" width="40"/> | Rookie | Rookie | Just getting started |
+| Rank    | Badge                               | Title          | Tier         | Achievement                |
+| ------- | ----------------------------------- | -------------- | ------------ | -------------------------- |
+| **SSS** | <img src="ass/sss.png" width="40"/> | Legendary      | Mythic       | Top 0.1% - Living legend   |
+| **SS**  | <img src="ass/ss.png" width="40"/>  | Grandmaster    | Elite        | Top 1% - Elite status      |
+| **AAA** | <img src="ass/aaa.png" width="40"/> | Champion Elite | Master       | Top 3% - Masters level     |
+| **AA**  | <img src="ass/aa.png" width="40"/>  | Champion       | Expert       | Top 5% - Expert level      |
+| **S**   | <img src="ass/s.png" width="40"/>   | Star Performer | Advanced     | Top 10% - Well established |
+| **A**   | <img src="ass/a.png" width="40"/>   | Veteran        | Intermediate | Top 20% - Experienced      |
+| **B**   | <img src="ass/b.png" width="40"/>   | Challenger     | Intermediate | Top 45% - Rising star      |
+| **C**   | <img src="ass/c.png" width="40"/>   | Contender      | Beginner     | Top 72% - Active member    |
+| **D**   | <img src="ass/d.png" width="40"/>   | Rookie         | Rookie       | Just getting started       |
 
 #### Trophy Category Thresholds:
 
-| Category | Icon | SSS | SS | AAA | AA | S | A | B | C | D |
-|----------|------|-----|-------|-----|-------|-------|------|------|-------|------|
-| **Stars** | ⭐ | 100K | 50K | 30K | 20K | 10K | 2K | 400 | 80 | 1 |
-| **Commits** | 💻 | 20K | 10K | 7K | 6K | 5K | 2K | 1K | 500 | 100 |
-| **Issues** | 🔧 | 1K | 500 | 350 | 250 | 200 | 100 | 50 | 20 | 5 |
-| **Pull Requests** | 🔀 | 500 | 300 | 225 | 180 | 150 | 75 | 30 | 10 | 2 |
-| **Followers** | 👥 | 10K | 5K | 3K | 2K | 1K | 200 | 50 | 10 | 1 |
-| **Repositories** | 📦 | 200 | 100 | 75 | 60 | 50 | 20 | 10 | 5 | 1 |
-| **Experience** | �️ | 12y | 10y | 9y | 8.5y | 8y | 5y | 3y | 2y | 1y |
+| Category          | Icon | SSS  | SS  | AAA | AA   | S   | A   | B   | C   | D   |
+| ----------------- | ---- | ---- | --- | --- | ---- | --- | --- | --- | --- | --- |
+| **Stars**         | ⭐   | 100K | 50K | 30K | 20K  | 10K | 2K  | 400 | 80  | 1   |
+| **Commits**       | 💻   | 20K  | 10K | 7K  | 6K   | 5K  | 2K  | 1K  | 500 | 100 |
+| **Issues**        | 🔧   | 1K   | 500 | 350 | 250  | 200 | 100 | 50  | 20  | 5   |
+| **Pull Requests** | 🔀   | 500  | 300 | 225 | 180  | 150 | 75  | 30  | 10  | 2   |
+| **Followers**     | 👥   | 10K  | 5K  | 3K  | 2K   | 1K  | 200 | 50  | 10  | 1   |
+| **Repositories**  | 📦   | 200  | 100 | 75  | 60   | 50  | 20  | 10  | 5   | 1   |
+| **Experience**    | �️    | 12y  | 10y | 9y  | 8.5y | 8y  | 5y  | 3y  | 2y  | 1y  |
 
 #### How Ranks Work:
 

@@ -1,7 +1,7 @@
 const TROPHY_API_BASE_URL = "http://localhost:3001/trophy";
 
 function TrophyCard({ item, index, activeTheme, username }) {
-  const realTrophySvg = `${TROPHY_API_BASE_URL}?username=${username || 'torvalds'}&theme=flat&rank=${item.rank}&title=${item.name}&column=1&margin_w=0&margin_h=0&no_bg=true`;
+  const realTrophySvg = `${TROPHY_API_BASE_URL}?username=${username || 'torvalds'}&theme=flat&title=${encodeURIComponent(item.name)}&column=1&margin_w=0&margin_h=0&no_bg=true&hide_rank=true`;
 
   return (
     <div 
@@ -31,7 +31,7 @@ function TrophyCard({ item, index, activeTheme, username }) {
         }}
         onError={(e) => {
           console.error(`❌ Trophy failed: ${item.name} (${item.rank})`);
-          const fallbackUrl = `${TROPHY_API_BASE_URL}?username=${username || 'torvalds'}&theme=flat&column=7&margin_w=0&margin_h=0`;
+          const fallbackUrl = `${TROPHY_API_BASE_URL}?username=${username || 'torvalds'}&theme=flat&column=7&margin_w=0&margin_h=0&hide_rank=true`;
           e.target.src = fallbackUrl;
           e.target.style.width = '630px';
           e.target.style.height = '100px';

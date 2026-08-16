@@ -90,7 +90,7 @@ function Logo() {
 
 function TrophyMiniCard({ item, index, activeTheme, username }) {
   // Use transparent background for mini cards to make them look like PNG
-  const realTrophySvg = `${TROPHY_API_BASE_URL}?username=${username || 'torvalds'}&theme=flat&rank=${item.rank}&title=&hide_rank=true&column=1&margin_w=0&margin_h=0&no_bg=true`;
+  const realTrophySvg = `${TROPHY_API_BASE_URL}?username=${username || 'torvalds'}&theme=flat&title=${encodeURIComponent(item.name)}&hide_rank=true&column=1&margin_w=0&margin_h=0&no_bg=true`;
 
   return (
     <div className="trophy-svg-only" style={{
@@ -118,7 +118,7 @@ function TrophyMiniCard({ item, index, activeTheme, username }) {
           console.error(`❌ Mini trophy failed: ${item.name} (${item.rank})`);
           
           // Fallback to main trophy wall
-          const fallbackUrl = `${TROPHY_API_BASE_URL}?username=${username || 'torvalds'}&theme=flat&column=7&margin_w=0&margin_h=0`;
+          const fallbackUrl = `${TROPHY_API_BASE_URL}?username=${username || 'torvalds'}&theme=flat&column=7&margin_w=0&margin_h=0&hide_rank=true`;
           e.target.src = fallbackUrl;
           e.target.style.width = '630px';
           e.target.style.height = '100px';
@@ -162,8 +162,8 @@ function Generator() {
     realTrophies : 
     realTrophies.filter((trophy) => trophy.name === category);
 
-  const codeSnippet = useMemo(() => `![GitHub trophies for @${username}](${TROPHY_API_BASE_URL}?username=${encodeURIComponent(username)}&theme=${theme.name.toLowerCase()})`, [username, theme]);
-  const liveTrophyUrl = useMemo(() => `${TROPHY_API_BASE_URL}?username=${encodeURIComponent(username)}&theme=${theme.name.toLowerCase()}&column=7&margin_w=6&margin_h=6&no_bg=false`, [username, theme]);
+  const codeSnippet = useMemo(() => `![GitHub trophies for @${username}](${TROPHY_API_BASE_URL}?username=${encodeURIComponent(username)}&theme=${theme.name.toLowerCase()}&hide_rank=true)`, [username, theme]);
+  const liveTrophyUrl = useMemo(() => `${TROPHY_API_BASE_URL}?username=${encodeURIComponent(username)}&theme=${theme.name.toLowerCase()}&column=7&margin_w=6&margin_h=6&no_bg=false&hide_rank=true`, [username, theme]);
 
   // Fetch real trophy data from backend
   const fetchTrophyData = async (usernameToFetch) => {

@@ -25,6 +25,7 @@ export function sanitizeParams(params) {
     no_frame = false,
     rank,
     title,
+    hide_rank = false,
   } = params;
 
   return {
@@ -36,6 +37,9 @@ export function sanitizeParams(params) {
       "gruvbox",
       "onedark",
       "dracula",
+      "cyberpunk",
+      "nord",
+      "obsidian",
     ].includes(theme)
       ? theme
       : "flat",
@@ -46,6 +50,7 @@ export function sanitizeParams(params) {
     no_frame: no_frame === "true" || no_frame === true,
     rank: rank?.trim(),
     title: title?.trim(),
+    hide_rank: hide_rank === "true" || hide_rank === true,
   };
 }
 
@@ -82,8 +87,8 @@ export function calculatePercentage(current, max) {
  * Generate cache key
  */
 export function generateCacheKey(username, params) {
-  const { theme, column, no_bg, no_frame, rank, title } = params;
-  return `trophy_${username}_${theme}_${column}_${no_bg}_${no_frame}_${
+  const { theme, column, no_bg, no_frame, rank, title, hide_rank } = params;
+  return `trophy_${username}_${theme}_${column}_${no_bg}_${no_frame}_${hide_rank || "false"}_${
     rank || "all"
   }_${title || "all"}`;
 }

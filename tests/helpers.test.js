@@ -31,6 +31,7 @@ describe("Helpers - sanitizeParams", () => {
       theme: "dark",
       column: "8",
       no_bg: "true",
+      hide_rank: "true",
     };
 
     const result = sanitizeParams(params);
@@ -38,6 +39,7 @@ describe("Helpers - sanitizeParams", () => {
     assert.strictEqual(result.theme, "dark");
     assert.strictEqual(result.column, 8);
     assert.strictEqual(result.no_bg, true);
+    assert.strictEqual(result.hide_rank, true);
   });
 
   it("should apply defaults", () => {
@@ -47,6 +49,7 @@ describe("Helpers - sanitizeParams", () => {
     assert.strictEqual(result.theme, "flat");
     assert.strictEqual(result.column, 6);
     assert.strictEqual(result.margin_w, 15);
+    assert.strictEqual(result.hide_rank, false);
   });
 
   it("should clamp column between 1-10", () => {

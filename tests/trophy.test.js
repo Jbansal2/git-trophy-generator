@@ -24,6 +24,8 @@ describe("Trophy - calculateRank", () => {
   const thresholds = {
     SSS: 100000,
     SS: 50000,
+    AAA: 30000,
+    AA: 20000,
     S: 10000,
     A: 2000,
     B: 400,
@@ -46,10 +48,24 @@ describe("Trophy - calculateRank", () => {
     assert.strictEqual(result.progress, 50);
   });
 
-  it("should calculate S rank", () => {
-    const result = calculateRank(30000, thresholds, "Stars");
-    assert.strictEqual(result.rank, "S");
+  it("should calculate AAA rank", () => {
+    const result = calculateRank(40000, thresholds, "Stars");
+    assert.strictEqual(result.rank, "AAA");
     assert.strictEqual(result.next, 50000);
+    assert.strictEqual(result.progress, 50);
+  });
+
+  it("should calculate AA rank", () => {
+    const result = calculateRank(25000, thresholds, "Stars");
+    assert.strictEqual(result.rank, "AA");
+    assert.strictEqual(result.next, 30000);
+    assert.strictEqual(result.progress, 50);
+  });
+
+  it("should calculate S rank", () => {
+    const result = calculateRank(15000, thresholds, "Stars");
+    assert.strictEqual(result.rank, "S");
+    assert.strictEqual(result.next, 20000);
     assert.strictEqual(result.progress, 50);
   });
 
@@ -70,7 +86,7 @@ describe("Trophy - calculateRank", () => {
   it("should handle edge case at threshold", () => {
     const result = calculateRank(10000, thresholds, "Stars");
     assert.strictEqual(result.rank, "S");
-    assert.strictEqual(result.next, 50000);
+    assert.strictEqual(result.next, 20000);
     assert.strictEqual(result.progress, 0);
   });
 });

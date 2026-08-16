@@ -84,13 +84,13 @@ export async function generateTrophySVG(trophies, options) {
   const marginW = parseInt(margin_w) || 5;
   const marginH = parseInt(margin_h) || 5;
 
-  const trophyWidth = 140;
-  const trophyHeight = 160;
+  const trophyWidth = 110;
+  const trophyHeight = 140;
   const titleBarHeight = 20;
-  const iconSize = 150;
-  const iconGap = -25;
-  const nameGap = -22;
-  const progressGap = 5;
+  const iconSize = 110;
+  const iconGap = -10;
+  const nameGap = 1;
+  const progressGap = 10;
   const pointsGap = 13;
 
   const rows = Math.ceil(filteredTrophies.length / cols);
@@ -147,6 +147,30 @@ export async function generateTrophySVG(trophies, options) {
       titleBg: "#44475a",
       progressBg: "#6272a4",
     },
+    cyberpunk: {
+      shadow: "drop-shadow(0 0 10px rgba(0,255,102,0.3))",
+      border: "#00ff66",
+      text: "#00ff66",
+      bg: "#0c0f17",
+      titleBg: "#111625",
+      progressBg: "#1b233a",
+    },
+    nord: {
+      shadow: "",
+      border: "#81a1c1",
+      text: "#d8dee9",
+      bg: "#2e3440",
+      titleBg: "#3b4252",
+      progressBg: "#4c566a",
+    },
+    obsidian: {
+      shadow: "",
+      border: "#fbbf24",
+      text: "#e2e8f0",
+      bg: "#0f172a",
+      titleBg: "#1e293b",
+      progressBg: "#334155",
+    },
   };
 
   const style = themeStyles[theme] || themeStyles.flat;
@@ -161,8 +185,8 @@ export async function generateTrophySVG(trophies, options) {
     <style>
       .trophy-card { filter: ${style.shadow}; }
       .trophy-title { font: 300 11px 'Segoe UI', Arial, sans-serif; fill: ${style.text}; opacity: 0.85; letter-spacing: 0.5px; }
-      .trophy-rank-title { font: 300 11px 'Segoe UI', Arial, sans-serif; fill: ${style.text}; opacity: 0.75; }
-      .trophy-points { font: 13px 'Segoe UI', Arial, sans-serif; fill: ${style.text}; opacity: 0.55; }
+      .trophy-rank-title { font: 500 11px 'Segoe UI', Arial, sans-serif; fill: ${style.text}; opacity: 0.75; }
+      .trophy-points { font:  500 13px 'Segoe UI', Arial, sans-serif; fill: ${style.text}; opacity: 0.55; }
     </style>`;
 
   // Load all trophy SVGs
@@ -185,21 +209,9 @@ export async function generateTrophySVG(trophies, options) {
       D: "#808080",
     };
 
-    // Trophy category colors for title bar (matching actual trophy PNG colors)
-    const categoryColors = {
-      "Stars": "#4169E1",        
-      "Commits": "#E91E63",      
-      "Issues": "#4169E1",       
-      "Pull Requests": "#E91E63", 
-      "Followers": "#4169E1",   
-      "Repositories": "#d9d9d9",  
-      "Experience": "#3e692a"   
-    };
-
     const rankColor = rankColors[trophy.rank] || "#808080";
-    const categoryColor = categoryColors[trophy.name] || rankColor;
 
-    const progressBarWidth = 115;
+    const progressBarWidth = 90;
     const progressBarHeight = 4;
     const progressWidth = (trophy.progress / 100) * progressBarWidth;
 
@@ -211,8 +223,10 @@ export async function generateTrophySVG(trophies, options) {
     const iconX = (trophyWidth - iconSize) / 2;
     const iconY = titleBarHeight + iconGap;
     const nameY = iconY + iconSize + nameGap;
-    const progressY = nameY + progressGap;
-    const pointsY = progressY + progressBarHeight + pointsGap;
+    // Keep the progress indicator at the card's bottom edge so it cannot
+    // overlap the trophy title or points text.
+    const progressY = trophyHeight - progressBarHeight;
+    const pointsY = nameY + 18;
 
     // Create trophy icon using PNG
     const trophyIcon = rankPngData ? 
@@ -263,19 +277,19 @@ export async function generateTrophySVG(trophies, options) {
       `
           : ""
       }
-      <rect x="0" y="0" width="${trophyWidth}" height="${titleBarHeight}" fill="${categoryColor}"/>
+      <rect x="0" y="0" width="${trophyWidth}" height="${titleBarHeight}" fill="${style.progressBg}"/>
       <text class="trophy-title" x="${trophyWidth / 2}" y="${
         titleBarHeight / 2 + 4
-      }" text-anchor="middle" fill="#ffffff" font-weight="600">${trophy.name.toUpperCase()}</text>
+      }" text-anchor="middle" fill="${style.text}" font-weight="600">${trophy.name.toUpperCase()}</text>
       ${trophyIcon}
       ${rankCircle}
       ${rankText}
       <text class="trophy-rank-title" x="${
         trophyWidth / 2
       }" y="${nameY}" text-anchor="middle">${trophy.title}</text>
-      <text class="trophy-points" x="${
+      ${hide_rank ? '' : `<text class="trophy-points" x="${
         trophyWidth / 2
-      }" y="${pointsY}" text-anchor="middle">${points} pt</text>
+      }" y="${pointsY}" text-anchor="middle">${points} pt</text>`}
       <rect x="${
         (trophyWidth - progressBarWidth) / 2
       }" y="${progressY}" width="${progressBarWidth}" height="${progressBarHeight}" fill="${style.progressBg}"/>

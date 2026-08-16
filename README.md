@@ -58,16 +58,6 @@ http://localhost:3000/trophy?username=YOUR_GITHUB_USERNAME
 
 ## Trophies
 
-### Trophy Categories:
-
-1. ** Stars** - Total stars earned across repositories
-2. ** Commits** - Estimated commit count
-3. ** Issues** - Total issues created
-4. ** Pull Requests** - Total PRs created
-5. ** Followers** - GitHub followers
-6. ** Repositories** - Public repositories count
-7. ** Experience** - Account age in years
-
 ### Rank System:
 
 The rank system evaluates your GitHub profile across 7 different categories. Each trophy has its own ranking thresholds based on the metric.
@@ -76,20 +66,18 @@ The rank system evaluates your GitHub profile across 7 different categories. Eac
 
 | Rank    | Badge                               | Title          | Tier         | Achievement                |
 | ------- | ----------------------------------- | -------------- | ------------ | -------------------------- |
-| **SSS** | <img src="ass/sss.png" width="40"/> | Legendary      | Mythic       | Top 0.1% - Living legend   |
-| **SS**  | <img src="ass/ss.png" width="40"/>  | Grandmaster    | Elite        | Top 1% - Elite status      |
-| **AAA** | <img src="ass/aaa.png" width="40"/> | Champion Elite | Master       | Top 3% - Masters level     |
-| **AA**  | <img src="ass/aa.png" width="40"/>  | Champion       | Expert       | Top 5% - Expert level      |
-| **S**   | <img src="ass/s.png" width="40"/>   | Star Performer | Advanced     | Top 10% - Well established |
-| **A**   | <img src="ass/a.png" width="40"/>   | Veteran        | Intermediate | Top 20% - Experienced      |
-| **B**   | <img src="ass/b.png" width="40"/>   | Challenger     | Intermediate | Top 45% - Rising star      |
-| **C**   | <img src="ass/c.png" width="40"/>   | Contender      | Beginner     | Top 72% - Active member    |
-| **D**   | <img src="ass/d.png" width="40"/>   | Rookie         | Rookie       | Just getting started       |
+| **SSS** | <img src="ass/sss.png" width="90"/> | Legendary      | Mythic       | Top 0.1% - Living legend   |
+| **SS**  | <img src="ass/ss.png" width="90"/>  | Grandmaster    | Elite        | Top 1% - Elite status      |
+| **AAA** | <img src="ass/aaa.png" width="90"/> | Champion Elite | Master       | Top 3% - Masters level     |
+| **AA**  | <img src="ass/aa.png" width="90"/>  | Champion       | Expert       | Top 5% - Expert level      |
+| **S**   | <img src="ass/s.png" width="90"/>   | Star Performer | Advanced     | Top 10% - Well established |
+| **A**   | <img src="ass/a.png" width="90"/>   | Veteran        | Intermediate | Top 20% - Experienced      |
+| **B**   | <img src="ass/b.png" width="90"/>   | Challenger     | Intermediate | Top 45% - Rising star      |
+| **C**   | <img src="ass/c.png" width="90"/>   | Contender      | Beginner     | Top 72% - Active member    |
+| **D**   | <img src="ass/d.png" width="90"/>   | Rookie         | Rookie       | Just getting started       |
 
-#### Trophy Category Thresholds:
+<!--
 
-| Category          | Icon | SSS  | SS  | AAA | AA   | S   | A   | B   | C   | D   |
-| ----------------- | ---- | ---- | --- | --- | ---- | --- | --- | --- | --- | --- |
 | **Stars**         | ⭐   | 100K | 50K | 30K | 20K  | 10K | 2K  | 400 | 80  | 1   |
 | **Commits**       | 💻   | 20K  | 10K | 7K  | 6K   | 5K  | 2K  | 1K  | 500 | 100 |
 | **Issues**        | 🔧   | 1K   | 500 | 350 | 250  | 200 | 100 | 50  | 20  | 5   |
@@ -122,6 +110,8 @@ The rank system evaluates your GitHub profile across 7 different categories. Eac
 **Experience Titles:** Rookie → Learner → Apprentice → Journeyman → Veteran → Elder → Ancient One → Master → Legend
 
 _Note: Thresholds and titles are customized for each trophy category to reflect meaningful achievement levels_
+
+-->
 
 ## Themes
 
